@@ -23,7 +23,10 @@ body{
 </style>
 ```
 ```{r setup, include=FALSE}
-source("~/R Projects/5800TwitteR/.Rprofile")
+# source("~/R Projects/5800TwitteR/.Rprofile")
+
+library(dplyr)
+library(tidyverse)
 library(stargazer)
 library(nnet)
 library(kableExtra)
@@ -112,9 +115,9 @@ relrisk <- exp(coef(mlr)) %>%
 names <- c("Intercept", "Big-Pharma", "COVID-Outbreaks", "COVID-Testing", "Government-Skeptic", "Sanitation", "Masks", "Distancing", "US-Cases", "Vaccine-Effects", "Vaccine-Skeptic")
 # colnames(relrisk) <-  c("Intercept", mlr[["lab"]][-1])
 colnames(relrisk) <- names
-riskkable <- knitr::kable(relrisk, format = "latex", digits = 4, longtable= T, caption = "Odds Ratios: Reply Topic per CDC Topic")
+riskkable <- knitr::kable(relrisk, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic")
 
-relrisk
+riskkable
 ```
 
 \pagebreak
