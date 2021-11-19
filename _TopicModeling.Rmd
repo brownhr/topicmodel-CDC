@@ -89,16 +89,17 @@ mlr <- conversation_long %>%
   data = .)
 ```
 
-```{r relrisk, echo = FALSE}
-relrisk <- exp(coef(mlr)) %>% 
+```{r oddsratio, echo = FALSE}
+oddsratio <- exp(coef(mlr)) %>% 
   as.data.frame()
 names <- c("Intercept", "Big-Pharma", "COVID-Outbreaks", "COVID-Testing", "Government-Skeptic", "Sanitation", "Masks", "Distancing", "US-Cases", "Vaccine-Effects", "Vaccine-Skeptic")
-# colnames(relrisk) <-  c("Intercept", mlr[["lab"]][-1])
-colnames(relrisk) <- names
-riskkable <- knitr::kable(relrisk, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic", longtable = T, booktabs = T) %>%
-  kable_styling(latex_options = c("repeat_header"), font_size = 10) #%>% 
+# colnames(oddsratio) <-  c("Intercept", mlr[["lab"]][-1])
+colnames(oddsratio) <- names
+oddskable <- knitr::kable(oddsratio, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic", booktabs = T) %>%
+  kable_styling(latex_options = c("repeat_header", "scale_down"), font_size = 10) %>% 
   # kableExtra::landscape(margin = "1in")
-riskkable
+  add_footnote(notation = "none", label = "CDC Topics by Row; Reply Topics by Column") %>% landscape()
+oddskable
 
 
 
