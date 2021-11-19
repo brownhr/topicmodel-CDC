@@ -1,0 +1,128 @@
+---
+title: "Topic Modeling of Twitter Data regarding the CDC and COVID-19"
+author: "Harrison Brown"
+date: "`r Sys.Date()`"
+output:
+  bookdown::pdf_document2
+toc: yes
+header-includes:
+- \usepackage{pdflscape}
+- \usepackage{dcolumn}
+- \usepackage{rotating, graphicx}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+bibliography: references.bib
+csl: aag.csl
+---
+
+```{=html}
+<style>
+body{
+  text-align: justify
+}
+</style>
+```
+```{r setup, include=FALSE}
+source("~/R Projects/5800TwitteR/.Rprofile")
+library(stargazer)
+library(nnet)
+library(kableExtra)
+
+knitr::opts_chunk$set(echo = TRUE)
+conversation_wide <- read_rds("conversation_topics_wide.RDS")
+conversation_long <- readRDS("conversation_long_2.RDS")
+LDA_Summary <- read_csv("LDA_Summary.csv")
+# mlr <- read_rds("mlr.RDS")
+conv_nonzero <- conversation_long %>% 
+  filter(value > 0)
+
+```
+
+\pagebreak
+
+# Abstract
+
+Social media is a powerful source of data regarding individual perception of public health policy and phenomena such as the COVID-19 pandemic. In this study, we perform topic modeling -- a method of determining abstract "topics" within collections of documents -- on approximately 300,000 Tweets from January 1, 2019, to September 21, 2021, to better understand both user sentiment and conversational topics within the discourse. Topic modeling is performed on Tweets by the CDC's official Twitter account *\@CDCgov*, as well as Tweets that reply to, quote, or mention the CDC's Twitter handle. Topic modeling is performed using *Latent Dirichlet Allocation (LDA)*, with a value of $k = 11$ topics. The results of the multinomial logistic regression show the probability of Reply Tweets of a given topic occurring on CDC Tweets of each topic; see Table \@ref(tab:relrisk).
+
+\pagebreak
+
+# Introduction
+
+## Research Question
+
+## Background and Lit. Findings
+
+# Data
+
+## Twitter API
+
+## academictwitteR
+
+Query by "\@CDCgov" for Reply Tweets, and by "from:CDCgov" for CDC Tweets.
+
+@barrie2021
+
+## Data Preprocessing
+
+### Stopword Removal
+
+### Duplicates / Noise
+
+### Conversation ID
+
+### Tokenization
+
+### Stemming
+
+# Methodology
+
+## Topic Modeling
+
+### Constructing Corpus
+
+### Document-Term Matrix
+
+### Latent Dirichlet Allocation
+
+@blei2003
+
+## Analysis
+
+# Results
+
+\pagebreak
+
+```{r mlr, message=FALSE, include=FALSE}
+conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
+conversation_long$label_Reply <- relevel(conversation_long$label_Reply, ref = "Public-Health")
+
+mlr <- conversation_long %>%
+  dplyr::filter(
+    value > 0
+  ) %>% 
+  multinom(
+  formula = label_Reply ~ label_CDC, 
+  weights = value,
+  data = .)
+```
+
+```{r relrisk, echo = FALSE}
+relrisk <- exp(coef(mlr)) %>% 
+  as.data.frame()
+names <- c("Intercept", "Big-Pharma", "COVID-Outbreaks", "COVID-Testing", "Government-Skeptic", "Sanitation", "Masks", "Distancing", "US-Cases", "Vaccine-Effects", "Vaccine-Skeptic")
+# colnames(relrisk) <-  c("Intercept", mlr[["lab"]][-1])
+colnames(relrisk) <- names
+riskkable <- knitr::kable(relrisk, format = "latex", digits = 4, longtable= T, caption = "Odds Ratios: Reply Topic per CDC Topic")
+
+relrisk
+```
+
+\pagebreak
+
+# Discussion
+
+# Conclusion
+
+\pagebreak
+
+# References
