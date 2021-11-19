@@ -37,6 +37,8 @@ knitr::opts_chunk$set(echo = TRUE)
 conversation_wide <- read_rds("conversation_topics_wide.RDS")
 conversation_long <- readRDS("conversation_long_2.RDS")
 LDA_Summary <- read_csv("LDA_Summary.csv")
+mlr <- readRDS("mlr.RDS")
+
 # mlr <- read_rds("mlr.RDS")
 conv_nonzero <- conversation_long %>% 
   filter(value > 0)
@@ -45,33 +47,38 @@ conv_nonzero <- conversation_long %>%
 
 \pagebreak
 
-```{r child="abstract.Rmd"}
+```{r child="_abstract.Rmd"}
 
 ```
 
 
 \pagebreak
 
-```{r child = "introduction.Rmd"}
+```{r child = "_introduction.Rmd"}
 
 ```
 
+\pagebreak
 
-```{r child = "datacollection.Rmd"}
+```{r child = "_datacollection.Rmd"}
 ```
 
+\pagebreak
 
-```{r child = "methodology.Rmd"}
+```{r child = "_methodology.Rmd"}
 
 ```
 
 
 \pagebreak
 
-```{r mlr, message=FALSE, include=FALSE}
+```{r setfactor, echo = FALSE}
 conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
 conversation_long$label_Reply <- relevel(conversation_long$label_Reply, ref = "Public-Health")
 
+```
+
+```{r mlr, include = F, eval = F}
 mlr <- conversation_long %>%
   dplyr::filter(
     value > 0
