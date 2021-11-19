@@ -289,3 +289,15 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 .Rproj.user/
+5800TwitteRMain.R.RData
+analysis.RData
+tweets_theta.csv
+tweets_full.csv
+tweets_filter.csv
+tweets_author.csv
+sampleLDA.RData
+ldaResults.RDS
+LDA_max_theta.csv
+LDA_Results.RDS
+Emojitracker_20150604.csv
+Emoji_Sentiment_Data_v1.0.csv
