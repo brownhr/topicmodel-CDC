@@ -1,0 +1,21 @@
+# Data
+
+## Twitter API
+
+## academictwitteR
+
+Query by "\@CDCgov" for Reply Tweets, and by "from:CDCgov" for CDC Tweets.
+
+@barrie2021
+
+## Data Preprocessing
+
+### Stopword Removal
+
+### Duplicates / Noise
+
+### Conversation ID
+
+### Tokenization
+
+### Stemming

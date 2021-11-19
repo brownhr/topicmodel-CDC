@@ -8,6 +8,7 @@ toc: yes
 header-includes:
 - \usepackage{pdflscape}
 - \usepackage{dcolumn}
+- \usepackage{longtable}
 - \usepackage{rotating, graphicx}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
@@ -28,6 +29,7 @@ body{
 library(dplyr)
 library(tidyverse)
 library(stargazer)
+library(xtable)
 library(nnet)
 library(kableExtra)
 
@@ -43,7 +45,6 @@ conv_nonzero <- conversation_long %>%
 
 \pagebreak
 
-# Abstract
 ```{r child="abstract.Rmd"}
 
 ```
@@ -51,49 +52,19 @@ conv_nonzero <- conversation_long %>%
 
 \pagebreak
 
-# Introduction
+```{r child = "introduction.Rmd"}
 
-## Research Question
+```
 
-## Background and Lit. Findings
 
-# Data
+```{r child = "datacollection.Rmd"}
+```
 
-## Twitter API
 
-## academictwitteR
+```{r child = "methodology.Rmd"}
 
-Query by "\@CDCgov" for Reply Tweets, and by "from:CDCgov" for CDC Tweets.
+```
 
-@barrie2021
-
-## Data Preprocessing
-
-### Stopword Removal
-
-### Duplicates / Noise
-
-### Conversation ID
-
-### Tokenization
-
-### Stemming
-
-# Methodology
-
-## Topic Modeling
-
-### Constructing Corpus
-
-### Document-Term Matrix
-
-### Latent Dirichlet Allocation
-
-@blei2003
-
-## Analysis
-
-# Results
 
 \pagebreak
 
@@ -117,7 +88,12 @@ relrisk <- exp(coef(mlr)) %>%
 names <- c("Intercept", "Big-Pharma", "COVID-Outbreaks", "COVID-Testing", "Government-Skeptic", "Sanitation", "Masks", "Distancing", "US-Cases", "Vaccine-Effects", "Vaccine-Skeptic")
 # colnames(relrisk) <-  c("Intercept", mlr[["lab"]][-1])
 colnames(relrisk) <- names
-riskkable <- knitr::kable(relrisk, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic")
+riskkable <- knitr::kable(relrisk, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic", longtable = T, booktabs = T) %>%
+  kable_styling(latex_options = c("repeat_header"), font_size = 10) #%>% 
+  # kableExtra::landscape(margin = "1in")
+riskkable
+
+
 
 ```
 

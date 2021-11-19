@@ -1,0 +1,15 @@
+# Methodology
+
+## Topic Modeling
+
+### Constructing Corpus
+
+### Document-Term Matrix
+
+### Latent Dirichlet Allocation
+
+@blei2003
+
+## Analysis
+
+# Results
