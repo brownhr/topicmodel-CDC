@@ -1,0 +1,12 @@
+Dimension,Value,COVID-19 Outbreaks,COVID-19 Testing / Symptoms,Fear Mongering,Government Skepticism,Handwashing / Sanitation,Masks & Mask Efficacy,Public Health,Quarantine / Self-Isolation,U.S. Cases & Deaths,Vaccine Side-Effects,Vaccine Skepticism
+CDC_COVID-19 Outbreaks,p values,0,0,0,1,0,0,0,1,0.185145,0.024929,1.8e-5
+CDC_COVID-19 Testing / Symptoms,p values,1,0,0,0,0,0,1,0,1,0.001955,1
+CDC_Fear Mongering,p values,1,0,0,0,0,0,1,0,0,0,0
+CDC_Government Skepticism,p values,1,1,1,0.033033,1,1,1,1,1,0.255353,1
+CDC_Handwashing / Sanitation,p values,0,0,0,6.02e-4,0,0.247857,4e-4,1,0,0,0
+CDC_Masks & Mask Efficacy,p values,0,0,0,0,0,0,0,0.00255,3e-6,0,0
+CDC_Public Health,p values,1,0.006896,0,1,0,0,0,0,0,0,0
+CDC_Quarantine / Self-Isolation,p values,1,0,6e-6,0.052975,5.18e-4,3e-6,0.6034,0,0,1e-6,0
+CDC_U.S. Cases & Deaths,p values,1,1,0.110655,0,0,0.526608,0.001958,5e-6,0,0,0
+CDC_Vaccine Side-Effects,p values,0,0,1,0,0,0,0,0,0,0,0
+CDC_Vaccine Skepticism,p values,1,1,1,2e-6,0,2e-6,1,0.006082,1,0,0

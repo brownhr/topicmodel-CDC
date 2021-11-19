@@ -1,0 +1,12 @@
+topic,label_1,prevalence,coherence,top_terms_phi,top_terms_gamma
+t_1,stay_home,8.07,0.088,"kids, school, schools, home, children","school, border, illegals, southern_border, back_school"
+t_2,big_pharma,11.23,0.01,"people, stop, cdc, fuck, shit","big_pharma, mongering, fear_mongering, crimes, crimes_humanity"
+t_3,natural_immunity,8.56,0.108,"immunity, covid, vaccine, long, natural","natural_immunity, long_term, herd, herd_immunity, lasts"
+t_4,public_health,7.76,0.066,"health, amp, covid, care, public","healthcare_workers, mental_health, opioid, nursing_homes, care_workers"
+t_5,united_states,8.85,0.039,"covid, cases, deaths, numbers, states","cruise, united_states, covid_cases, covid_deaths, flights"
+t_6,covid_vaccine,9.53,0.037,"vaccine, covid, people, vaccines, shot","pregnant, side_effects, pregnant_women, flu_shot, survival_rate"
+t_7,american_people,11.21,0.026,"cdc, trump, people, trust, science","lies_lies, lost_credibility, trust_cdc, disease_control, white_house"
+t_8,tested_positive,7.47,0.065,"test, covid, testing, people, tested","test, vaping, pcr, kits, covid_test"
+t_9,wash_hands,8.49,0.053,"masks, face, mask, virus, hands","wash, cloth, wash_hands, washing, face_masks"
+t_10,covid_ー,7.77,0.024,"covid, coronavirus, virus, cdc, amp","malaria, dis, social_media, click, outbreaks_viruses"
+t_11,wear_mask,11.06,0.125,"mask, vaccinated, masks, people, wear","fully_vaccinated, wear_masks, vaccinated_people, wearing_masks, people_wear"
