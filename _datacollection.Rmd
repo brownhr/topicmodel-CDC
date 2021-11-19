@@ -1,6 +1,12 @@
+---
+bibliography: references.bib
+---
+
 # Data
 
 ## Twitter API
+
+Twitter data acquisition on a large scale is made possible through the Twitter API v2 Academic Research Access, a platform designed by Twitter for use in academic and scientific research [@twitter]. Academic access differs from standard API access in that rather than limiting query results to only the last 7 days of public Tweets, the Academic Research Access allows for full-archive searching, as well as much a higher limit on the number of monthly Tweets able to be requested.
 
 ## academictwitteR
 
