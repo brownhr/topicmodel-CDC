@@ -2,6 +2,22 @@
 
 ## Topic Modeling
 
+Topic modeling is a powerful tool set within the field of text mining that allows the user to extract a set of "topics" which occur within a set of documents (i.e. a *corpus*). These topics are based primarily on word co-occurrence; that is, words that appear frequently together are more likely to be assigned to the same topic. For example, because words such as "mask" and "mandate" frequently co-occur as bigrams in discussions on health and sanitation, they are likely to be assigned to the same topic; see table \@ref(tab:topicsummary) for the top 5 terms within each topic. For this analysis, the topic modeling method used is *Latent Dirichlet Allocation*, which allows for documents to be categorized into more than one topic; see Section \@ref(latent-dirichlet-allocation) for more detail.
+
+
+
+
+```{r topicsummary, echo = F}
+
+LDA_Summary %>% 
+  dplyr::select(Topic_Name, top_terms_phi) %>% 
+  knitr::kable(caption = "Top 5 terms within each topic",
+               col.names = c("Topic", "Top Terms")) %>% add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
+  kable_styling(latex_options = c("hold_position"))
+
+```
+
+
 ### Constructing Corpus
 
 ### Document-Term Matrix
@@ -12,4 +28,12 @@
 
 ## Analysis
 
-# Results
+### Topic Name Assignment.
+
+A descriptive name for each topic was generated with the `textmineR::SummarizeTopics` function, which automatically assigns each topic a label based on most prevalent terms. The outcome of this function was then "cleaned up" and given proper capitalization and punctuation for legibility purposes. This function was used to aid in eliminating potential researcher bias in arbitrarily assigning names to topics.
+
+### Multinomial Logistic Regression
+
+The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary). 
+
+Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each *conversation id*. **...explain `conversation_long` etc...**. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.

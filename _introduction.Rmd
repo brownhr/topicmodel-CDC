@@ -1,5 +1,13 @@
+---
+bibliography: references.bib
+---
+
 # Introduction
 
 ## Research Question
 
+This paper aims to develop the foundation of a method for predicting discussion topics on social media using *Latent Dirichlet Allocation (LDA)* and multinomial logistic regression (MLR), for the purposes of increasing effectiveness of science communication programs.
+
 ## Background and Lit. Findings
+
+While much research regarding text mining of Twitter data has focused specifically on the COVID-19 pandemic, little has been done to examine the public perception of government entities within the social media discourse [@dubey2020; @boon-itt2020; @manguri2020 ; @garcia2021].

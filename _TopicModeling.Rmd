@@ -1,5 +1,5 @@
 ---
-title: "Topic Modeling of Twitter Data regarding the CDC and COVID-19"
+title: "Topic Modeling of Twitter Data regarding the CDC and the COVID-19 Pandemic"
 author: "Harrison Brown"
 date: "`r Sys.Date()`"
 output:
@@ -9,6 +9,7 @@ header-includes:
 - \usepackage{pdflscape}
 - \usepackage{dcolumn}
 - \usepackage{longtable}
+- \usepackage{placeins}
 - \usepackage{rotating, graphicx}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
@@ -23,6 +24,7 @@ body{
 }
 </style>
 ```
+
 ```{r setup, include=FALSE}
 # source("~/R Projects/5800TwitteR/.Rprofile")
 
@@ -47,12 +49,11 @@ conv_nonzero <- conversation_long %>%
 
 \pagebreak
 
-```{r child="_abstract.Rmd"}
+```{r child= "_abstract.Rmd"}
 
 ```
 
 
-\pagebreak
 
 ```{r child = "_introduction.Rmd"}
 
@@ -69,47 +70,17 @@ conv_nonzero <- conversation_long %>%
 
 ```
 
-
 \pagebreak
 
-```{r setfactor, echo = FALSE}
-conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
-conversation_long$label_Reply <- relevel(conversation_long$label_Reply, ref = "Public-Health")
-
-```
-
-```{r mlr, include = F, eval = F}
-mlr <- conversation_long %>%
-  dplyr::filter(
-    value > 0
-  ) %>% 
-  multinom(
-  formula = label_Reply ~ label_CDC, 
-  weights = value,
-  data = .)
-```
-
-```{r oddsratio, echo = FALSE}
-oddsratio <- exp(coef(mlr)) %>% 
-  as.data.frame()
-names <- c("Intercept", "Big-Pharma", "COVID-Outbreaks", "COVID-Testing", "Government-Skeptic", "Sanitation", "Masks", "Distancing", "US-Cases", "Vaccine-Effects", "Vaccine-Skeptic")
-# colnames(oddsratio) <-  c("Intercept", mlr[["lab"]][-1])
-colnames(oddsratio) <- names
-oddskable <- knitr::kable(oddsratio, format = "latex", digits = 4,  caption = "Odds Ratios: Reply Topic per CDC Topic", booktabs = T) %>%
-  kable_styling(latex_options = c("repeat_header", "scale_down"), font_size = 10) %>% 
-  # kableExtra::landscape(margin = "1in")
-  add_footnote(notation = "none", label = "CDC Topics by Row; Reply Topics by Column") %>% landscape()
-oddskable
-
-
+```{r child = "_results.Rmd"}
 
 ```
 
 \pagebreak
 
-# Discussion
+```{r child = "_discussionconclusion.Rmd"}
 
-# Conclusion
+```
 
 \pagebreak
 
