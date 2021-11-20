@@ -1,5 +1,7 @@
 # Results
 
+
+<!-- \blandscape -->
 ```{r oddsratio, echo = FALSE}
 
 conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
@@ -26,17 +28,18 @@ colnames(oddsratio) <-
   str_remove(colnames(oddsratio), pattern = "label_CDC")
 oddskable <- knitr::kable(
   oddsratio,
-  format = "html",
+  format = "latex",
   digits = 2,
   caption = "Odds Ratios: Reply Topic per CDC Topic",
-  booktabs = T
+  # longtable = T,
+  # booktabs = T
 )  %>%
   column_spec(1:12, border_left = F, border_right = T) %>%
   kable_styling(
     latex_options = c("repeat_header",
                       "scale_down",
                       "hold_position"),
-    font_size = 10
+    # font_size = 8
   ) %>%
   add_footnote(
     notation = "number",
@@ -44,8 +47,11 @@ oddskable <- knitr::kable(
       "CDC Topics by Column; Reply Topics by Row",
       "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
     )
-  )
-
-kableExtra::save_kable(oddskable, file = "odds.png")
+  ) %>% landscape(margin = "1cm")
 oddskable
+# kableExtra::save_kable(oddskable, file = "odds.png")
+# knitr::include_graphics("odds.png")
 ```
+
+<!-- \elandscape -->
+
