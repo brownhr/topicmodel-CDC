@@ -9,12 +9,16 @@ Topic modeling is a powerful tool set within the field of text mining that allow
 
 ```{r topicsummary, echo = F}
 
-LDA_Summary %>% 
-  dplyr::select(Topic_Name, top_terms_phi) %>% 
-  knitr::kable(caption = "Top 5 terms within each topic",
-               col.names = c("Topic", "Top Terms")) %>% add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
+topic.kable <- LDA_Summary %>% 
+  dplyr::select(Topic_Name, top_terms_phi, top_terms_gamma) %>% 
+  knitr::kable(caption = "Top 5 terms within each topic",format = "html",
+               col.names = c("Topic", "Top Terms (phi)", "Top Terms (gamma)")) %>% add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
   kable_styling(latex_options = c("hold_position"))
 
+# topic.kable %>% kableExtra::save_kable("topics_table.png")
+
+topic.kable %>% save_kable("topics_table.png")
+topic.kable
 ```
 
 

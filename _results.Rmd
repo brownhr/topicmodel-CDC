@@ -21,21 +21,31 @@ names <-
     "Vaccine-Effects",
     "Vaccine-Skeptic"
   )
-# colnames(oddsratio) <-  c("Intercept", mlr[["lab"]][-1])
-colnames(oddsratio) <- names
+# colnames(oddsratio) <- names
+colnames(oddsratio) <-
+  str_remove(colnames(oddsratio), pattern = "label_CDC")
 oddskable <- knitr::kable(
   oddsratio,
-  format = "latex",
-  digits = 4,
+  format = "html",
+  digits = 2,
   caption = "Odds Ratios: Reply Topic per CDC Topic",
   booktabs = T
-) %>%
-  kable_styling(latex_options = c("repeat_header",
-                                  "scale_down",
-                                  "hold_position"),
-                font_size = 10) %>%
-  add_footnote(notation = "number",
-               label = c("CDC Topics by Row; Reply Topics by Column", "Note: 'Public-Health' is absent as it is the baseline for MLR analysis.")) #%>% 
-  # landscape()
+)  %>%
+  column_spec(1:12, border_left = F, border_right = T) %>%
+  kable_styling(
+    latex_options = c("repeat_header",
+                      "scale_down",
+                      "hold_position"),
+    font_size = 10
+  ) %>%
+  add_footnote(
+    notation = "number",
+    label = c(
+      "CDC Topics by Column; Reply Topics by Row",
+      "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
+    )
+  )
+
+kableExtra::save_kable(oddskable, file = "odds.png")
 oddskable
 ```

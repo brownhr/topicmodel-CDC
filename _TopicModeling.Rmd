@@ -34,6 +34,7 @@ library(stargazer)
 library(xtable)
 library(nnet)
 library(kableExtra)
+library(magick)
 
 knitr::opts_chunk$set(echo = TRUE)
 conversation_wide <- read_rds("conversation_topics_wide.RDS")
