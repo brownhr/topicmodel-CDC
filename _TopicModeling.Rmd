@@ -3,9 +3,11 @@ title: "Topic Modeling of Twitter Data regarding the CDC and the COVID-19 Pandem
 author: "Harrison Brown"
 date: "`r Sys.Date()`"
 output:
-  bookdown::pdf_document2
+  pdf_document:
+    fig_caption: true
+    number_sections: true
 # classoption: twocolumn
-toc: yes
+# toc: yes
 header-includes:
 - \usepackage{pdflscape}
 - \usepackage{dcolumn}
@@ -26,6 +28,10 @@ body{
 }
 </style>
 ```
+
+
+
+
 
 ```{r setup, include=FALSE}
 # source("~/R Projects/5800TwitteR/.Rprofile")
@@ -49,13 +55,17 @@ conv_nonzero <- conversation_long %>%
   filter(value > 0)
 ```
 
-
-\newpage
-
-
 ```{r child= "_abstract.Rmd"}
 
 ```
+
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+
+\newpage
+
 
 \twocolumn
 
