@@ -235,4 +235,5 @@ LDA_max_theta.csv
 LDA_Results.RDS
 Emojitracker_20150604.csv
 Emoji_Sentiment_Data_v1.0.csv
-.Rhistory
+*.Rhistory
+.Rhistory/

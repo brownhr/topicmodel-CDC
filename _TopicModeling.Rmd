@@ -43,9 +43,8 @@ LDA_Summary <- read_csv("LDA_Summary.csv")
 mlr <- readRDS("mlr.RDS")
 
 # mlr <- read_rds("mlr.RDS")
-conv_nonzero <- conversation_long %>% 
+conv_nonzero <- conversation_long %>%
   filter(value > 0)
-
 ```
 
 \pagebreak

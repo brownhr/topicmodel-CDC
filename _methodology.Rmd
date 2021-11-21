@@ -29,7 +29,9 @@ topic.kable
 
 ### Latent Dirichlet Allocation
 
-@blei2003
+Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha ($\alpha$)).
+
+
 
 ## Analysis
 
