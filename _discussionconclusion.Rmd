@@ -1,3 +1,5 @@
+\twocolumn
+
 # Discussion
 
 # Conclusion

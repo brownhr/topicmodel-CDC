@@ -4,6 +4,7 @@ author: "Harrison Brown"
 date: "`r Sys.Date()`"
 output:
   bookdown::pdf_document2
+# classoption: twocolumn
 toc: yes
 header-includes:
 - \usepackage{pdflscape}
@@ -16,6 +17,7 @@ header-includes:
 bibliography: references.bib
 csl: aag.csl
 ---
+\onecolumn
 
 ```{=html}
 <style>
@@ -47,41 +49,45 @@ conv_nonzero <- conversation_long %>%
   filter(value > 0)
 ```
 
-\pagebreak
+
+\newpage
+
 
 ```{r child= "_abstract.Rmd"}
 
 ```
 
-
+\twocolumn
 
 ```{r child = "_introduction.Rmd"}
 
 ```
 
-\pagebreak
+\newpage
 
 ```{r child = "_datacollection.Rmd"}
+
 ```
 
-\pagebreak
+\newpage
 
 ```{r child = "_methodology.Rmd"}
-
 ```
 
-\pagebreak
+\newpage
 
 ```{r child = "_results.Rmd"}
-
 ```
 
-\pagebreak
+\newpage
 
 ```{r child = "_discussionconclusion.Rmd"}
 
 ```
 
-\pagebreak
+\newpage
+
+
+\onecolumn
 
 # References
