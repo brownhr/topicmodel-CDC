@@ -3,23 +3,25 @@ title: "Topic Modeling of Twitter Data regarding the CDC and the COVID-19 Pandem
 author: "Harrison Brown"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    fig_caption: true
-    number_sections: true
+  bookdown::pdf_document2
 # classoption: twocolumn
-# toc: yes
+toc: yes
 header-includes:
 - \usepackage{pdflscape}
 - \usepackage{dcolumn}
 - \usepackage{longtable}
 - \usepackage{placeins}
+- \usepackage{multicol, wrapfig}
 - \usepackage{rotating, graphicx}
+- \usepackage{float}
+- \newcommand{\twocol}{\begin{multicols}{2}}
+- \newcommand{\onecol}{\end{multicols}}
 - \newcommand{\blandscape}{\begin{landscape}}
 - \newcommand{\elandscape}{\end{landscape}}
 bibliography: references.bib
 csl: aag.csl
 ---
-\onecolumn
+
 
 ```{=html}
 <style>
@@ -59,15 +61,10 @@ conv_nonzero <- conversation_long %>%
 
 ```
 
-\newpage
-\tableofcontents
-\listoffigures
-\listoftables
-
-\newpage
 
 
-\twocolumn
+
+\twocol
 
 ```{r child = "_introduction.Rmd"}
 
@@ -86,18 +83,23 @@ conv_nonzero <- conversation_long %>%
 
 \newpage
 
+\onecol
+
 ```{r child = "_results.Rmd"}
 ```
 
 \newpage
 
+\twocol
+
 ```{r child = "_discussionconclusion.Rmd"}
 
 ```
 
+\onecol
 \newpage
 
 
-\onecolumn
-
 # References
+
+

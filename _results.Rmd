@@ -1,7 +1,6 @@
-\onecolumn
+
 # Results
 
-<!-- \blandscape -->
 ```{r oddsratio, echo = FALSE}
 
 conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
@@ -77,10 +76,8 @@ oddskable2
 # knitr::include_graphics("odds.png")
 ```
 
-```{r oddskable2, echo = F}
-
-```
+\twocol
 
 
-<!-- \elandscape -->
+\onecol
 
