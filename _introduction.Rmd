@@ -1,5 +1,9 @@
 # Introduction
 
+# Public Health Geography
+
+# Public Opinion(?)
+
 ## Research Question
 
 This paper aims to develop the foundation of a method for predicting discussion topics on social media using *Latent Dirichlet Allocation (LDA)* and multinomial logistic regression (MLR), for the purposes of increasing effectiveness of science communication programs.  As much of the literature focuses on the societal effects of the pandemic *itself*, this study aims to measure user opinion from the perspective of public health geography by examining the relationship between the topics of Tweets by the CDC (*CDC Topic* and *CDC Tweet*) and their effects on the topics of Tweets made in reply (*Reply Topic* and *Reply Tweet*). This study intends to answer the following research question; fundamentally, how can social media managers (whether for governmental or non-governmental organizations) use topic modeling to better understand public opinion to tailor more effective public health campaigns.
