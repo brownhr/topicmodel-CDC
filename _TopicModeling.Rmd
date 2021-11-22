@@ -21,7 +21,7 @@ header-includes:
     {\par\medskip\noindent\minipage{\linewidth}}
     {\endminipage\par\medskip}
 - \graphicspath{ {./} }
-bibliography: references.bib
+bibliography: topicmodeling.bib
 csl: aag.csl
 ---
 
@@ -74,7 +74,9 @@ conv_nonzero <- conversation_long %>%
 
 ```
 
+```{r child="_litreview.Rmd"}
 
+```
 
 ```{r child = "_datacollection.Rmd"}
 

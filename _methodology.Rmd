@@ -11,7 +11,7 @@ Topic modeling is a powerful tool set within the field of text mining that allow
 topic.kable <- LDA_Summary %>% 
   dplyr::select(Topic_Name, top_terms_phi) %>% 
   knitr::kable(caption = "Top 5 terms within each topic",format = "latex",
-               col.names = c("Topic", "Top Terms ($\\phi$)")) %>% add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
+               col.names = c("Topic", "Top Terms ($\\phi$)")) %>% #add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
   kable_styling(latex_options = c("Hold_position",
                                   "scale_down"))
 
@@ -29,14 +29,14 @@ A corpus is defined as a collection of documents for use in text mining; in this
 
 ### Latent Dirichlet Allocation
 
-Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha ($\alpha$)).
+Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha ($\alpha$)).
 
-One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei2003.
+One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
 
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{blei_lda_model}
-  \caption{\textit{Graphical model representation of LDA. The boxes are “plates” representing replicates. The outer plate represents documents, while the inner plate represents the repeated choiceof topics and words within a document. Adapted from Blei (2003).}}
+  \caption{\textit{Graphical model representation of LDA. The boxes are “plates” representing replicates. The outer plate represents documents, while the inner plate represents the repeated choice of topics and words within a document. From Blei (2003).}}
 \end{figure}
 
 #### *K*
@@ -56,6 +56,10 @@ The $\beta$ parameter effectively models the distribution of words per topic; as
 
 #### *Iterations*
 
+<!-- ### Collapsed Gibbs Sampling -->
+
+<!-- The probability within each document of a topic being assigned to a word is defined as, -->
+<!-- $$P(z_i = j|\mathbf{z}_{-i},w_i, d_i,\cdot)\propto {\frac{C_{w_{i}j}^{WT} + \beta}{\sum\limits_{w=1}^{W}C_{w_{i}j}^{WT} + W\beta}}{\frac{C_{d_ij}^{DT} + \alpha}{\sum\limits_{t=1}^{T}C_{d_ij}^{DT} + T\alpha}}$$, or, in perhaps more legible terminology, as the product of the probability of a word $w$ falling into topic $t$ and the probability of said topic $t$ within document $d$. -->
 
 ## Analysis
 
