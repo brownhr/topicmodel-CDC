@@ -76,8 +76,3 @@ oddskable2
 # knitr::include_graphics("odds.png")
 ```
 
-\twocol
-
-
-\onecol
-
