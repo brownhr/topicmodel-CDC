@@ -1,20 +1,23 @@
 # Data
 
+The data for this study consists of a corpus of approximately 300,000 Tweets regarding the Centers for Disease Control and Prevention (CDC). As the CDC disseminates information regarding vaccinations, face coverings (masks), and general public health, tweets made in reply to the CDC (Reply Tweets) often follow the same topic of discussion. The data collection methods defined below explain the workflow for obtaining and cleaning the text corpus within R.
+
 ## Twitter API
 
 Twitter data acquisition on a large scale is made possible through the Twitter API v2 Academic Research Access, a platform designed by Twitter for use in academic and scientific research [@noauthor_twitter_nodate]. Academic access differs from standard API access in that rather than limiting query results to only the last 7 days of public Tweets, the Academic Research Access allows for full-archive searching, as well as much a higher limit on the number of monthly Tweets able to be requested.
 
 ## academictwitteR
 
-Query by "\@CDCgov" for Reply Tweets, and by "from:CDCgov" for CDC Tweets.
+The `academictwitteR` package for R allows the user to access the Academic Research archive from the Twitter API v2 and was developed in @barrie_academictwitter_2021. CDC Tweets were gathered by querying "`from:CDCgov`" from Jan. 1, 2019, to Sep. 21, 2021; Reply Tweets were acquired from the same time frame with the query "`@CDCgov`", meaning the text of the Reply Tweet contained the phrase "\@CDCgov", the name of the CDC's Twitter handle.
 
-@barrie_academictwitter_2021
 
 ## Data Preprocessing
 
+As the corpus contains raw, unfiltered text, steps must be taken to clean and process the data into a format suitable for topic modeling; the methods for processing the text data are outlined below.
+
 ### Stopword Removal
 
-### Duplicates / Noise
+Stopwords are often defined as the most frequently used words which do not offer very much useful information, such as "the", "and", or "at", etc. Stopwords were removed using the `textmineR` and `stopwords` R packages; additionally, hyperlinks and Twitter handle mentions were considered "stopwords" in this analysis as they do not offer semantic value.
 
 ### Conversation ID
 
