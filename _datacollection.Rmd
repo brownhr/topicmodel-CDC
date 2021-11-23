@@ -15,12 +15,20 @@ The `academictwitteR` package for R allows the user to access the Academic Resea
 
 As the corpus contains raw, unfiltered text, steps must be taken to clean and process the data into a format suitable for topic modeling; the methods for processing the text data are outlined below.
 
+
+### Tokenization
+
+*Tokenization* refers to the act of splitting a length of text (a `string`) into individual segments or words, which are most often split by punctuation and whitespace. These tokens consist primarily of unigrams (individual words), but can also be extended to bigrams (two words occurring in order together). Trigrams (three words in-a-row) were omitted as, while they offer significant contextual and semantic information, they occurred too infrequently to be particularly useful; this is a noted issue in *short-text* datasets such as Twitter [@bao_joint_2009; @debortoli_text_2016; @hong_empirical_2010; @ostrowski_using_2015].
+
+The results of tokenization on the Corpus are used directly in the Document-Term Matrix outlined in Section \@ref(document-term-matrix).
+
 ### Stopword Removal
 
-Stopwords are often defined as the most frequently used words which do not offer very much useful information, such as "the", "and", or "at", etc. Stopwords were removed using the `textmineR` and `stopwords` R packages; additionally, hyperlinks and Twitter handle mentions were considered "stopwords" in this analysis as they do not offer semantic value.
+Stopwords are often defined as the most frequently used words which do not offer very much useful information, such as "the", "and", or "at", etc. Stopwords were removed using the `textmineR` and `stopwords` R packages; additionally, hyperlinks and Twitter handle mentions were considered "stopwords" in this analysis as they do not offer semantic value. Other Twitter-specific stopwords include tokens like *RT* ("Retweet"), *amp* (a mis-encoding of the $\&$ character), *http*, and *tco*.
+
+Once stopwords, links, and Handle mentions were removed, many Tweets (i.e., spam Tweets) did not contain any text and were thereafter removed. Additionally, extraneous duplicate Tweets by the same author replying to the same CDC Tweet were removed.
 
 ### Conversation ID
 
-### Tokenization
 
 ### Stemming
