@@ -44,19 +44,21 @@ One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution
 \end{figure}
 
 #### *K*
-The parameter *K*, or $k$, defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document.
+The parameter *K*, or $k$, defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document. The *short-text* nature of Twitter data provides several complications when performing topic modeling; one such issue was the generally low coherence values ($\approx 0.1$). As such, the value of $k$ was also chosen to minimize overlap between distinct topics, rather than focus solely on the maximum coherence score.
 
 #### Alpha ($\alpha$)
 
-The $\alpha$ parameter models the distribution of topics within each document; at low values of $\alpha$ (i.e., close to 0), topics are likely to consist primarily of only one topic. At values of $\alpha \approx 1$, all distributions of topics per document are equally likely. As $\alpha\to\infty$, all topics become equally likely to occur (i.e., with $k = 3$ topics, documents are composed of $33\%$ topic 1, $33\%$ topic 2, and $33\%$ topic 3). 
+The $\alpha$ parameter models the distribution of topics within each document; at low values of $\alpha$ (i.e., close to 0), documents are likely to consist primarily of only one topic. At values of $\alpha \approx 1$, all distributions of topics per document are equally likely. As $\alpha\to\infty$, all topics become equally likely to occur (i.e., with $k = 3$ topics, documents are composed of $33\%$ topic 1, $33\%$ topic 2, and $33\%$ topic 3). $\alpha$ is controlled by a single argument within the `textmineR::FitLdaModel` function, with a value of $0.1$.
 
 #### Beta ($\beta$)
 
-The $\beta$ parameter effectively models the distribution of words per topic; as $\beta$ decreases, topics are composed of few terms, while high values of $\beta$ generate topics with larger numbers of terms.
+The $\beta$ parameter effectively models the distribution of words per topic; as $\beta$ decreases, topics are composed of few terms, while high values of $\beta$ generate topics with larger numbers of terms. The value of $\beta$ for this analysis was set to $0.05$.
 
-#### Phi ($\phi$) and Gamma ($\gamma$)
+#### Phi ($\phi$)
 
 #### Theta ($\theta$)
+
+The value $\theta$ of *LDA* is a matrix which represents the distribution of topics over documents; that is, it is the output which is used to assign topics to each document. Because *LDA* is a probabilistic model, the row-wise values of $\theta$ sum to 1; each document is a certain proportion of every topic, with most documents consisting of one "primary" topic. For the sake of simplicity when performing multinomial logistic regression (see Section \@ref(multinomial-logistic-regression), the maximum value of $\theta$ within each document was used to assign only a single topic to each document; further research involving specific, topic-wise values of $\theta$ could be done to provide a continuous dependent and independent variable within regression analysis.
 
 #### *Iterations*
 
@@ -64,6 +66,8 @@ The $\beta$ parameter effectively models the distribution of words per topic; as
 
 <!-- The probability within each document of a topic being assigned to a word is defined as, -->
 <!-- $$P(z_i = j|\mathbf{z}_{-i},w_i, d_i,\cdot)\propto {\frac{C_{w_{i}j}^{WT} + \beta}{\sum\limits_{w=1}^{W}C_{w_{i}j}^{WT} + W\beta}}{\frac{C_{d_ij}^{DT} + \alpha}{\sum\limits_{t=1}^{T}C_{d_ij}^{DT} + T\alpha}}$$, or, in perhaps more legible terminology, as the product of the probability of a word $w$ falling into topic $t$ and the probability of said topic $t$ within document $d$. -->
+
+Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ is warranted; given constraints regarding time and computational resources, the values for these parameters were not optimized.
 
 ## Analysis
 

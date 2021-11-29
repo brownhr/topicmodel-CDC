@@ -5,18 +5,15 @@ date: "`r Sys.Date()`"
 output:
   bookdown::pdf_document2
 # classoption: twocolumn
-toc: yes
+toc: no
+# toc_depth: 1
 header-includes:
-- \usepackage{pdflscape}
 - \usepackage{dcolumn}
 - \usepackage{placeins}
 - \usepackage{multicol, wrapfig}
 - \usepackage{rotating, graphicx}
 - \usepackage{float}
-- \newcommand{\twocol}{\begin{multicols}{2}}
-- \newcommand{\onecol}{\end{multicols}}
-- \newcommand{\blandscape}{\begin{landscape}}
-- \newcommand{\elandscape}{\end{landscape}}
+# - \usepackage{setspace}\doublespacing
 - \newenvironment{Figure}
     {\par\medskip\noindent\minipage{\linewidth}}
     {\endminipage\par\medskip}
@@ -62,8 +59,6 @@ conv_nonzero <- conversation_long %>%
   filter(value > 0)
 ```
 
-\newpage
-
 ```{r child= "_abstract.Rmd"}
 
 ```
@@ -89,15 +84,11 @@ conv_nonzero <- conversation_long %>%
 ```{r child = "_methodology.Rmd"}
 ```
 
-\newpage
 
 \onecolumn
 ```{r child = "_results.Rmd"}
 ```
 
-\newpage
-
-\twocolumn
 ```{r child = "_discussionconclusion.Rmd"}
 
 ```

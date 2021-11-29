@@ -30,9 +30,3 @@ odds_controversial <- odds_calc %>%
     baseline_scale = baseline_odds / baseline_odds,
     odds_scale = Odds / baseline_odds
   )
-
-
-
-ggplot(odds_longer, aes(y = `CDC Topic`, fill = `Reply Topic`, x = Odds)) +
-  geom_col(show.legend = F) +
-  facet_wrap( ~ `Reply Topic`)

@@ -32,9 +32,9 @@ oddskable1 <- knitr::kable(
   digits = 2,
   caption = "Odds Ratios: Reply Topic per CDC Topic",
   # longtable = T,
-  booktabs = T
+  # booktabs = T
 )  %>%
-  column_spec(1:6, border_left = T, border_right = T) %>%
+  # column_spec(1:6, border_left = T, border_right = T) %>%
   kable_styling(
     latex_options = c("repeat_header",
                       "scale_down",
@@ -54,9 +54,9 @@ oddskable2 <- knitr::kable(
   format = "latex",
   digits = 2,
   # longtable = T,
-  booktabs = T
+  # booktabs = T
 )  %>%
-  column_spec(1:6, border_left = T, border_right = T) %>%
+  # column_spec(1:6, border_left = T, border_right = T) %>%
   kable_styling(
     latex_options = c("repeat_header",
                       "scale_down",
@@ -76,3 +76,8 @@ oddskable2
 # knitr::include_graphics("odds.png")
 ```
 
+\twocolumn
+
+## Interpretation of Odds Ratios
+
+Table \@ref(tab:oddsratio) gives the results of multinomial logistic regression in the form of Odds Ratios ($\text{OR}$), which indicate the relative "odds" of the occurrence of a Reply Topic per CDC Topic, when compared to the baseline of "Public Health". As this baseline was chosen arbitrarily, careful consideration should be given as to what these Odds Ratios actually represent. For example, in Column II (the CDC Topic *COVID-19-Outbreaks*), a value of $2.11$ is given in Row IX (Reply Topic *Vaccine-Side-Effects*); this represents that, given a CDC Tweet of this topic, Reply Tweets are $2.11$ times more likely to be of the topic *Vaccine-Side-Effects* than of the topic *Public-Health*.
