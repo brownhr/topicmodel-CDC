@@ -35,6 +35,7 @@ Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, i
 
 One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
 
+Initially, the *LDA* model was performed on a sample of $\approx \text{20,000}$ Tweets, because the size and resource requirements of *LDA* grow exponentially as new documents are added to the model [@blei_latent_2003]. This sample was able to provide adequate coverage of the original dataset, with the topics of the remainder of the corpus being predicted using the sample *LDA* model as training data. 
 ```{=tex}
 \begin{figure}
   \centering
@@ -52,11 +53,11 @@ The $\alpha$ parameter models the distribution of topics within each document; a
 
 #### Beta ($\beta$)
 
-The $\beta$ parameter effectively models the distribution of words per topic; as $\beta$ decreases, topics are composed of few terms, while high values of $\beta$ generate topics with larger numbers of terms. The value of $\beta$ for this analysis was set to $0.05$.
+The $\beta$ parameter effectively models the distribution of words per topic; as $\beta$ decreases, topics are composed of few terms, while high values of $\beta$ generate topics with larger numbers of terms. The value of $\beta$ for this analysis was set to $0.05$. For this analysis, a smaller value of $\beta$ ($< 1$) provided topics with little overlap between terms. One limitation of *short-text* Twitter data is that documents often have only a few dozen words, making traditional *LDA* more challenging than when performed e.g. on book chapters or customer reviews. Changing the values of $\beta$ to include more terms might lead to greater overlap between topics, but also to topics with generally higher coherence.
 
 #### Phi ($\phi$)
 
-The parameter $\phi$ models the probability of tokens (words) falling into each topic; i.e., for each topic, the probabilities of each token falling into that topic.
+The parameter $\phi$ models the probability of tokens (words) falling into each topic; i.e., for each topic, the probabilities of each token falling into that topic. $\phi$ is used to model the topics themselves to find the terms that are most frequently used within each topic, in order to gain an intuitive understanding of what each topic represents semantically. Table \@ref(tab:topicsummary) shows the top 5 terms within each topic, which were calculated using the values of $\phi$ [@jones_textminer_2019].
 
 
 #### Theta ($\theta$)
@@ -77,13 +78,17 @@ Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ 
 
 ### Topic Name Assignment.
 
-A descriptive name for each topic was generated with the `textmineR::SummarizeTopics` function, which automatically assigns each topic a label based on most prevalent terms. The outcome of this function was then "cleaned up" and given proper capitalization and punctuation for legibility purposes. This function was used to aid in eliminating potential researcher bias in arbitrarily assigning names to topics.
+A descriptive name for each topic was generated with the `textmineR::SummarizeTopics` function, which automatically assigns each topic a label based on most prevalent terms. The outcome of this function was then "cleaned up" and given proper capitalization and punctuation for legibility. This function was used to aid in eliminating potential researcher bias in arbitrarily assigning names to topics.
+
+When generating a Document-Term Matrix using the `textmineR::CreateDtm` function, the argument `doc_names` is used to link `tweet_id` to the output of the *LDA* model (i.e., the rows of the matrix $\theta$). Topics were assigned to documents using the maximum value of $\theta$ within each row; further research should use the entire distribution of $\theta$ to use a set of continuous variables within multinomial logistic regression. The resulting table of topics was then joined to the original corpus to create a data frame of Tweets containing text, `tweet_id`, `conversation_id`, and topic.
 
 Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism", and "Vaccine-Skepticism", specifically in how these topics are applied to CDC Tweets. As the CDC does not intentionally promote skepticism towards the efficacy of mask-wearing and vaccines, these topics warrant further examination. CDC Tweets of these topics are primarily artefacts of how *LDA* was used in this analysis; these are largely Tweets that either do not clearly fall into topics regarding public health and mask-wearing, or were authored pre-COVID, when much of the discourse consisted of regulatory information ("vaping," food-related recalls, etc.).
 
+In order to set up regression analysis, Tweets had to be "linked" by conversation ID. For this analysis, CDC Tweets were set to be the "parent" of the conversation, and the corpus of Reply Tweets was filtered and grouped within each `conversation_id`. The resulting table contained, for each distinct `conversation_id`, the parent CDC Topic as well as a collection of any Reply Tweets and their Topics. This allowed for a direct relationship between CDC Tweets and Reply Tweets, so that their respective topics could be compared using regression.
+
 ### Multinomial Logistic Regression
 
-The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary) [@ripley_nnet_2021].
+The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary) [@ripley_nnet_2021]. Multinomial logistic regression was used over other regression models such as ordinal logistic regression, as the response variable was not in any particular order (e.g., a Likert scale), meaning the data was nominal. 
 
 Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each conversation ID. Data were aggregated by CDC Tweets using conversation ID, such that Reply Tweets of the same conversation ID were in the same group. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.
 

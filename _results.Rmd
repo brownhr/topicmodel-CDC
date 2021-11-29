@@ -3,6 +3,11 @@
 
 ## Topic Modeling
 
+The results from topic modeling through *LDA* (see Table \@ref(tab:topicsummary)) indicate that the primary discussion topics relating to the CDC include mask wearing (`Masks-Mask-Efficacy`), vaccine efficacy and skepticism (`Vaccine-Side-Effects` and `Vaccine-Skepticism`). As the results from *MLR* indicate (below), the most "controversial" CDC Topic, defined as the topic which generated the widest array of skeptical Reply Topics, was `Masks-Mask-Efficacy`, indicating a strong public mistrust in government mask mandates. The number of topics chosen for *LDA*, $k =$`r params$k`, was chosen to provide adequate coverage of all topics of discussion, while also limiting the amount of overlap between distinct topics.
+
+
+<!-- Change above section for publication; use separate LDA model for CDC and Reply Tweets. -->
+
 ## Multinomial Logistic Regression
 
 Table \@ref(tab:oddsratio) (see Appendix, Section \@ref(appendix)) gives the results of multinomial logistic regression in the form of Odds Ratios ($\text{OR}$), which indicate the relative "odds" of the occurrence of a Reply Topic per CDC Topic, when compared to the baseline of "Public Health". As this baseline was chosen arbitrarily, some consideration should be given as to what these Odds Ratios actually represent. For example, in Column II (the CDC Topic *COVID-19-Outbreaks*), a value of $2.11$ is given in Row IX (Reply Topic *Vaccine-Side-Effects*); this represents that, given a CDC Tweet of this topic, Reply Tweets are $2.11$ times more likely to be of the topic *Vaccine-Side-Effects* than of the topic *Public-Health*.
