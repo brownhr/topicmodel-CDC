@@ -177,7 +177,6 @@ CDC_topics <- predict(object = tweets_LDA,
 # essentially the same as what was done for the Reply Tweets
 ```
 
-## Multinomial Logistic Regression
 
 ```{r oddsratio, echo = FALSE}
 
@@ -291,4 +290,25 @@ convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", 
 convID.kable
 ```
 
+## Multinomial Logistic Regression
 
+
+```{r mlr, eval = F}
+mlr <- conversation_long %>%
+  dplyr::filter(
+    # Filtered out rows where no Reply Tweets of a topic were found.
+    value > 0
+  ) %>% 
+  multinom(
+    # label_CDC (CDC Topic) is the only independent variable in this
+    # case, but the results are weighted by `value`, or the count of 
+    # Reply Tweets of different Topics (Count column in the example
+    # table above)
+    formula = label_Reply ~ label_CDC, 
+    weights = value,
+    data = .)
+
+# Calculate the Odds Ratio from the Coefficients from MLR.
+odds <- exp(coef(mlr)) %>% 
+  as.data.frame()
+```
