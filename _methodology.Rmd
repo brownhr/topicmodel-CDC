@@ -6,8 +6,6 @@ The primary methodology for this study involves the use of Topic Modeling, outli
 
 Topic modeling is a powerful tool set within the field of text mining that allows the user to extract a set of "topics" which occur within a set of documents (i.e. a *corpus*). These topics are based primarily on word co-occurrence; that is, words that appear frequently together are more likely to be assigned to the same topic. For example, because words such as "mask" and "mandate" frequently co-occur as bigrams in discussions on health and sanitation, they are likely to be assigned to the same topic; see table \@ref(tab:topicsummary) for the top 5 terms within each topic. For this analysis, the topic modeling method used is *Latent Dirichlet Allocation*, which allows for documents to be categorized into more than one topic; see Section \@ref(latent-dirichlet-allocation) for more detail.
 
-
-
 ```{r topicsummary, echo = F}
 
 topic.kable <- LDA_Summary %>% 
@@ -24,12 +22,12 @@ topic.kable
 ```
 
 ### Constructing Corpus
-A corpus is defined as a collection of documents for use in text mining; in this case it is the collection of Tweets obtained from the `academictwitteR` package, which were cleaned using the methods described in Section \@ref(data-preprocessing). This corpus was stored within R as a `data.frame` object, which contained information such as text, the date at which the Tweet was written (`created_at`), the unique ID (`tweet_id`), conversation id (`conversation_id`), and many others.
 
+A corpus is defined as a collection of documents for use in text mining; in this case it is the collection of Tweets obtained from the `academictwitteR` package, which were cleaned using the methods described in Section \@ref(data-preprocessing). This corpus was stored within R as a `data.frame` object, which contained information such as text, the date at which the Tweet was written (`created_at`), the unique ID (`tweet_id`), conversation id (`conversation_id`), and many others.
 
 ### Document-Term Matrix
 
-A *Document-Term Matrix* (often, *DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors. 
+A *Document-Term Matrix* (often, *DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors.
 
 ### Latent Dirichlet Allocation
 
@@ -37,18 +35,20 @@ Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, i
 
 One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
 
+```{=tex}
 \begin{figure}
   \centering
   \includegraphics[width=0.5\textwidth]{blei_lda_model}
-  \caption{\textit{Graphical model representation of LDA. The boxes are “plates” representing replicates. The outer plate represents documents, while the inner plate represents the repeated choice of topics and words within a document. From Blei (2003).}}
+  \caption{\textit{Graphical model representation of LDA. From Blei (2003).}}
 \end{figure}
-
+```
 #### *K*
+
 The parameter *K*, or $k$, defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document. The *short-text* nature of Twitter data provides several complications when performing topic modeling; one such issue was the generally low coherence values ($\approx 0.1$). As such, the value of $k$ was also chosen to minimize overlap between distinct topics, rather than focus solely on the maximum coherence score.
 
 #### Alpha ($\alpha$)
 
-The $\alpha$ parameter models the distribution of topics within each document; at low values of $\alpha$ (i.e., close to 0), documents are likely to consist primarily of only one topic. At values of $\alpha \approx 1$, all distributions of topics per document are equally likely. As $\alpha\to\infty$, all topics become equally likely to occur (i.e., with $k = 3$ topics, documents are composed of $33\%$ topic 1, $33\%$ topic 2, and $33\%$ topic 3). $\alpha$ is controlled by a single argument within the `textmineR::FitLdaModel` function, with a value of $0.1$.
+The $\alpha$ parameter models the distribution of topics within each document; at low values of $\alpha$ (i.e., close to 0), documents are likely to consist primarily of only one topic. At values of $\alpha \approx 1$, all distributions of topics per document are equally likely. As $\alpha\to\infty$, all topics become equally likely to occur (i.e., with $k = 3$ topics, documents are composed of $33\%$ topic 1, $33\%$ topic 2, and $33\%$ topic 3). $\alpha$ is controlled by a single argument within the `FitLdaModel` function, with a value of $0.1$.
 
 #### Beta ($\beta$)
 
@@ -56,16 +56,20 @@ The $\beta$ parameter effectively models the distribution of words per topic; as
 
 #### Phi ($\phi$)
 
+The parameter $\phi$ models the probability of tokens (words) falling into each topic; i.e., for each topic, the probabilities of each token falling into that topic.
+
+
 #### Theta ($\theta$)
 
-The value $\theta$ of *LDA* is a matrix which represents the distribution of topics over documents; that is, it is the output which is used to assign topics to each document. Because *LDA* is a probabilistic model, the row-wise values of $\theta$ sum to 1; each document is a certain proportion of every topic, with most documents consisting of one "primary" topic. For the sake of simplicity when performing multinomial logistic regression (see Section \@ref(multinomial-logistic-regression), the maximum value of $\theta$ within each document was used to assign only a single topic to each document; further research involving specific, topic-wise values of $\theta$ could be done to provide a continuous dependent and independent variable within regression analysis.
+The value $\theta$ of *LDA* is a matrix which represents the distribution of topics over documents; that is, it is the output which is used to assign topics to each document. Because *LDA* is a probabilistic model, the row-wise values of $\theta$ sum to 1; each document is a certain proportion of every topic, with most documents consisting of one "primary" topic. For the sake of simplicity when performing multinomial logistic regression (see Section \@ref(multinomial-logistic-regression), the maximum value of $\theta$ within each document was used to assign only a single topic to each document; further research involving specific, topic-wise values of $\theta$ could be done to provide a continuous dependent and independent variable within regression analysis. Additionally, the parameters $\phi$ and $\theta$ are estimated using Collapsed Gibbs Sampling.
 
-#### *Iterations*
+<!-- #### *Iterations* -->
 
 <!-- ### Collapsed Gibbs Sampling -->
 
-<!-- The probability within each document of a topic being assigned to a word is defined as, -->
-<!-- $$P(z_i = j|\mathbf{z}_{-i},w_i, d_i,\cdot)\propto {\frac{C_{w_{i}j}^{WT} + \beta}{\sum\limits_{w=1}^{W}C_{w_{i}j}^{WT} + W\beta}}{\frac{C_{d_ij}^{DT} + \alpha}{\sum\limits_{t=1}^{T}C_{d_ij}^{DT} + T\alpha}}$$, or, in perhaps more legible terminology, as the product of the probability of a word $w$ falling into topic $t$ and the probability of said topic $t$ within document $d$. -->
+<!-- The parameters $\phi$ and $\theta$ are estimated using Collapsed Gibbs Sampling, outlined below. -->
+
+<!-- The probability within each document of a topic being assigned to a word is defined as, $$P(z_i = j|\mathbf{z}_{-i},w_i, d_i,\cdot)\propto {\frac{C_{w_{i}j}^{WT} + \beta}{\sum\limits_{w=1}^{W}C_{w_{i}j}^{WT} + W\beta}}{\frac{C_{d_ij}^{DT} + \alpha}{\sum\limits_{t=1}^{T}C_{d_ij}^{DT} + T\alpha}}$$, or, the product of the probability of a word $w$ falling into topic $t$ and the probability of said topic $t$ within document $d$. -->
 
 Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ is warranted; given constraints regarding time and computational resources, the values for these parameters were not optimized.
 
@@ -75,10 +79,10 @@ Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ 
 
 A descriptive name for each topic was generated with the `textmineR::SummarizeTopics` function, which automatically assigns each topic a label based on most prevalent terms. The outcome of this function was then "cleaned up" and given proper capitalization and punctuation for legibility purposes. This function was used to aid in eliminating potential researcher bias in arbitrarily assigning names to topics.
 
-Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism", and "Vaccine-Skepticism", specifically in how these topics are applied to CDC Tweets. As the CDC does not intentionally promote skepticism towards the efficacy of mask-wearing and vaccines, these topics warrant further examination. CDC Tweets of these topics are primarily artefacts of how *LDA* was used in this analysis; these are largely Tweets that either do not clearly fall into topics regarding public health and mask-wearing, or were authored pre-COVID, when much of the discourse consisted of  regulatory information ("vaping," food-related recalls, etc.).
+Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism", and "Vaccine-Skepticism", specifically in how these topics are applied to CDC Tweets. As the CDC does not intentionally promote skepticism towards the efficacy of mask-wearing and vaccines, these topics warrant further examination. CDC Tweets of these topics are primarily artefacts of how *LDA* was used in this analysis; these are largely Tweets that either do not clearly fall into topics regarding public health and mask-wearing, or were authored pre-COVID, when much of the discourse consisted of regulatory information ("vaping," food-related recalls, etc.).
 
 ### Multinomial Logistic Regression
 
-The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary). 
+The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary).
 
 Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each *conversation id*. **...explain `conversation_long` etc...**. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.

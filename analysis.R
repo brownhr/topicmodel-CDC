@@ -1,0 +1,7 @@
+library(nnet)
+
+
+
+
+
+mlr <- multinom()
