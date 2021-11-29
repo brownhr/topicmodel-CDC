@@ -1,5 +1,7 @@
 # Appendix
 
+The following appendix provides much of the R code used in this study.
+
 ## academictwitteR
 
 ## Latent Dirichlet Allocation
@@ -256,4 +258,38 @@ oddskable2
 # kableExtra::save_kable(oddskable, file = "odds.png")
 # knitr::include_graphics("odds.png")
 ```
+
+```{r conversation, eval = F}
+# Tweets were grouped by conversation_id. Unfortunately, the original file
+# containing the actual analysis has been lost, but the process of grouping
+# by conversation_id is roughly the same as follows:
+
+
+# "CDC_topics" and "Reply_topics" are dataframes of tweet_id, 
+# conversation_id, and topic
+tweets_conversation <- CDC_topics %>% 
+  left_join(Reply_topics, by = "conversation_id")
+
+# Below is an example of what the grouped dataframe looks like for a single
+# conversation_id. The "count" column indicated how many Reply Tweets of a
+# Reply Topic are in that conversation
+```
+
+```{r convID, echo = F}
+tweets_conversation <- readRDS("conversation_long_2.RDS") %>% 
+  dplyr::filter(conversation_id == "1440058230260916237") %>% 
+  dplyr::rename(
+    "Count" = "value",
+    # "Conversation-ID" = "conversation_id",
+    # "CDC-Topic" = "label_CDC",
+    # "Reply-Topic" = "label_Reply"
+  )
+
+
+convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", caption = "Example of Tweets aggregated by conversation ID") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position"))
+
+convID.kable
+```
+
 
