@@ -85,4 +85,5 @@ Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism",
 
 The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary).
 
-Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each *conversation id*. **...explain `conversation_long` etc...**. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.
+Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each conversation ID. Data were aggregated by CDC Tweets using conversation ID, such that Reply Tweets of the same conversation ID were in the same group. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.
+

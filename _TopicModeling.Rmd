@@ -33,10 +33,6 @@ body{
 </style>
 ```
 
-
-
-
-
 ```{r setup, include=FALSE}
 # source("~/R Projects/5800TwitteR/.Rprofile")
 
@@ -63,9 +59,6 @@ conv_nonzero <- conversation_long %>%
 
 ```
 
-
-
-
 \twocolumn
 ```{r child = "_introduction.Rmd"}
 
@@ -79,20 +72,21 @@ conv_nonzero <- conversation_long %>%
 
 ```
 
-
-
 ```{r child = "_methodology.Rmd"}
+
 ```
 
-
-\onecolumn
 ```{r child = "_results.Rmd"}
+
 ```
 
 ```{r child = "_discussionconclusion.Rmd"}
 
 ```
 
+```{r child = "_appendix.Rmd"}
+
+```
 
 \onecolumn
 # References
