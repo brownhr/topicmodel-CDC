@@ -23,6 +23,8 @@ header-includes:
 - \graphicspath{ {./} }
 bibliography: topicmodeling.bib
 csl: aag.csl
+params:
+  k: 11
 ---
 
 
