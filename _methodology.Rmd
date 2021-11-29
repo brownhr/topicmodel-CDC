@@ -1,5 +1,7 @@
 # Methodology
 
+The primary methodology for this study involves the use of Topic Modeling, outlined below, to obtain discussion topics for CDC Tweets and Reply Tweets. The distributions and occurrences of these topics can be modeled using *multinomial logistic regression*; the assumption is made that there is a causal relationship between the Topic of a CDC Tweet and the Topic of a Tweet made in direct reply, as the user must understand the semantic meaning behind a given Tweet in order to make a reply.
+
 ## Topic Modeling
 
 Topic modeling is a powerful tool set within the field of text mining that allows the user to extract a set of "topics" which occur within a set of documents (i.e. a *corpus*). These topics are based primarily on word co-occurrence; that is, words that appear frequently together are more likely to be assigned to the same topic. For example, because words such as "mask" and "mandate" frequently co-occur as bigrams in discussions on health and sanitation, they are likely to be assigned to the same topic; see table \@ref(tab:topicsummary) for the top 5 terms within each topic. For this analysis, the topic modeling method used is *Latent Dirichlet Allocation*, which allows for documents to be categorized into more than one topic; see Section \@ref(latent-dirichlet-allocation) for more detail.
@@ -12,7 +14,7 @@ topic.kable <- LDA_Summary %>%
   dplyr::select(Topic_Name, top_terms_phi) %>% 
   knitr::kable(caption = "Top 5 terms within each topic",format = "latex",
                col.names = c("Topic", "Top Terms ($\\phi$)")) %>% #add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
-  kable_styling(latex_options = c("Hold_position",
+  kable_styling(latex_options = c("HOLD_position",
                                   "scale_down"))
 
 # topic.kable %>% kableExtra::save_kable("topics_table.png")
@@ -26,6 +28,8 @@ A corpus is defined as a collection of documents for use in text mining; in this
 
 
 ### Document-Term Matrix
+
+A *Document-Term Matrix* (often, *DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors. 
 
 ### Latent Dirichlet Allocation
 
