@@ -83,12 +83,16 @@ conv_nonzero <- conversation_long %>%
 ```{r child = "_discussionconclusion.Rmd"}
 
 ```
+\onecolumn
+# References
 
+<div id="refs"></div>
+
+
+\newpage
 ```{r child = "_appendix.Rmd"}
 
 ```
 
-\onecolumn
-# References
 
 

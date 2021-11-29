@@ -71,7 +71,7 @@ The value $\theta$ of *LDA* is a matrix which represents the distribution of top
 
 <!-- The probability within each document of a topic being assigned to a word is defined as, $$P(z_i = j|\mathbf{z}_{-i},w_i, d_i,\cdot)\propto {\frac{C_{w_{i}j}^{WT} + \beta}{\sum\limits_{w=1}^{W}C_{w_{i}j}^{WT} + W\beta}}{\frac{C_{d_ij}^{DT} + \alpha}{\sum\limits_{t=1}^{T}C_{d_ij}^{DT} + T\alpha}}$$, or, the product of the probability of a word $w$ falling into topic $t$ and the probability of said topic $t$ within document $d$. -->
 
-Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ is warranted; given constraints regarding time and computational resources, the values for these parameters were not optimized.
+Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ is warranted; given constraints regarding time and computational resources, the values for these parameters were not optimized, remaining at their default values assigned by the `textmineR::FitLdaModel` function [@jones_textminer_2019].
 
 ## Analysis
 
@@ -83,7 +83,7 @@ Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism",
 
 ### Multinomial Logistic Regression
 
-The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary).
+The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary) [@ripley_nnet_2021].
 
 Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each conversation ID. Data were aggregated by CDC Tweets using conversation ID, such that Reply Tweets of the same conversation ID were in the same group. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.
 
