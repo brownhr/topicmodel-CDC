@@ -182,8 +182,8 @@ tweets_LDA <- FitLdaModel(
   burnin = 500,
   calc_coherence = T,
   
-  # These parameters should be optimized in the final run; this model takes a
-  # lot of time to process so the values are kept at default.
+  # These parameters should be optimized in the publication run; this model
+  # takes a lot of time to process so the values are kept at default.
   alpha = .1,
   beta = .05
 )

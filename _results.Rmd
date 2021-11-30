@@ -10,6 +10,6 @@ The results from topic modeling through *LDA* (see Table \@ref(tab:topicsummary)
 
 ## Multinomial Logistic Regression
 
-Table \@ref(tab:oddsratio) (see Appendix, Section \@ref(appendix)) gives the results of multinomial logistic regression in the form of Odds Ratios ($\text{OR}$), which indicate the relative "odds" of the occurrence of a Reply Topic per CDC Topic, when compared to the baseline of "Public Health". As this baseline was chosen arbitrarily, some consideration should be given as to what these Odds Ratios actually represent. For example, in Column II (the CDC Topic *COVID-19-Outbreaks*), a value of $2.11$ is given in Row IX (Reply Topic *Vaccine-Side-Effects*); this represents that, given a CDC Tweet of this topic, Reply Tweets are $2.11$ times more likely to be of the topic *Vaccine-Side-Effects* than of the topic *Public-Health*.
+Table \@ref(tab:oddsratio) (see Appendix) gives the results of multinomial logistic regression in the form of Odds Ratios ($\text{OR}$), which indicate the relative "odds" of the occurrence of a Reply Topic per CDC Topic, when compared to the baseline of "Public Health". As this baseline was chosen arbitrarily, some consideration should be given as to what these Odds Ratios actually represent. For example, in Column II (the CDC Topic *COVID-19-Outbreaks*), a value of $2.11$ is given in Row IX (Reply Topic *Vaccine-Side-Effects*); this represents that, given a CDC Tweet of this topic, Reply Tweets are $2.11$ times more likely to be of the topic *Vaccine-Side-Effects* than of the topic *Public-Health*.
 
 

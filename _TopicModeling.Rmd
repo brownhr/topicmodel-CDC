@@ -14,7 +14,7 @@ header-includes:
 - \usepackage{multicol, wrapfig}
 - \usepackage{rotating, graphicx}
 - \usepackage{float}
-# - \usepackage{setspace}\doublespacing
+- \usepackage{setspace}
 - \newenvironment{Figure}
     {\par\medskip\noindent\minipage{\linewidth}}
     {\endminipage\par\medskip}
@@ -56,11 +56,21 @@ conv_nonzero <- conversation_long %>%
   filter(value > 0)
 ```
 
+
+\doublespacing
+
 ```{r child= "_abstract.Rmd"}
 
 ```
 
+\onehalfspacing
+
 \twocolumn
+
+\tableofcontents
+
+\newpage
+
 ```{r child = "_introduction.Rmd"}
 
 ```
@@ -86,9 +96,17 @@ conv_nonzero <- conversation_long %>%
 ```
 \onecolumn
 
-# References
+# References {-}
 
-<div id="refs"></div>
+
+
+<div id="refs">
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+\setlength{\parskip}{8pt}
+\noindent
+
+</div>
 
 \newpage
 ```{r child = "_appendix.Rmd"}
