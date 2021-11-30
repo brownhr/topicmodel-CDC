@@ -84,6 +84,7 @@ conv_nonzero <- conversation_long %>%
 
 ```
 \onecolumn
+
 # References
 
 <div id="refs"></div>
