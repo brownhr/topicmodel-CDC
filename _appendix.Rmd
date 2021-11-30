@@ -2,7 +2,130 @@
 
 The following appendix provides much of the R code used in this study.
 
+## Tables and Figures
+
+```{r oddsratio, echo = FALSE}
+
+conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
+conversation_long$label_Reply <- relevel(conversation_long$label_Reply, ref = "Public-Health")
+
+oddsratio <- exp(coef(mlr)) %>%
+  as.data.frame()
+names <-
+  c(
+    "Intercept",
+    "Big-Pharma",
+    "COVID-Outbreaks",
+    "COVID-Testing",
+    "Government-Skeptic",
+    "Sanitation",
+    "Masks",
+    "Distancing",
+    "US-Cases",
+    "Vaccine-Effects",
+    "Vaccine-Skeptic"
+  )
+# colnames(oddsratio) <- names
+colnames(oddsratio) <-
+  str_remove(colnames(oddsratio), pattern = "label_CDC")
+
+oddskable1 <- knitr::kable(
+  oddsratio[,1:5],
+  format = "latex",
+  digits = 2,
+  caption = "Odds Ratios: Reply Topic per CDC Topic",
+  # longtable = T,
+  # booktabs = T
+)  %>%
+  # column_spec(1:6, border_left = T, border_right = T) %>%
+  kable_styling(
+    latex_options = c("repeat_header",
+                      "scale_down",
+                      "hold_position"),
+  )# %>%
+  # add_footnote(
+  #   notation = "number",
+  #   label = c(
+  #     "CDC Topics by Column; Reply Topics by Row",
+  #     "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
+  #   )
+  # )
+oddskable1
+
+oddskable2 <- knitr::kable(
+  oddsratio[,6:11],
+  format = "latex",
+  digits = 2,
+  # longtable = T,
+  # booktabs = T
+)  %>%
+  # column_spec(1:6, border_left = T, border_right = T) %>%
+  kable_styling(
+    latex_options = c("repeat_header",
+                      "scale_down",
+                      "hold_position"),
+  ) %>%
+  add_footnote(
+    notation = "number",
+    label = c(
+      "CDC Topics by Column; Reply Topics by Row",
+      "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
+    )
+  )
+oddskable2
+
+
+# kableExtra::save_kable(oddskable, file = "odds.png")
+# knitr::include_graphics("odds.png")
+```
+
+```{r convID, echo = F}
+tweets_conversation <- readRDS("conversation_long_2.RDS") %>% 
+  dplyr::filter(conversation_id == "1440058230260916237") %>% 
+  dplyr::rename(
+    "Count" = "value",
+    # "Conversation-ID" = "conversation_id",
+    # "CDC-Topic" = "label_CDC",
+    # "Reply-Topic" = "label_Reply"
+  )
+
+
+convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", caption = "Example of Tweets aggregated by conversation ID") %>% 
+  kableExtra::kable_styling(latex_options = c("HOLD_position"))
+
+convID.kable
+```
+
+
+
 ## academictwitteR
+
+```{r academic, eval = F}
+
+date.start <- "2019-01-01T00:00:00Z"
+date.end <- "2021-09-21T00:00:00Z"
+
+get_all_tweets(
+  users = c("CDCgov"),
+  start_tweets = date.start,
+  end_tweets = date.end,
+  n = Inf,
+  data_path = "CDCtweets/",
+  bind_tweets = F
+)
+
+get_all_tweets(
+  query = "@CDCgov",
+  start_tweets = date.start,
+  end_tweets = date.end,
+  n = Inf,
+  data_path = "ReplyTweets/",
+  bind_tweets = F
+)
+
+```
+
+
 
 ## Latent Dirichlet Allocation
 
@@ -178,80 +301,7 @@ CDC_topics <- predict(object = tweets_LDA,
 ```
 
 
-```{r oddsratio, echo = FALSE}
 
-conversation_long$label_CDC <- relevel(conversation_long$label_CDC, ref = "Public-Health")
-conversation_long$label_Reply <- relevel(conversation_long$label_Reply, ref = "Public-Health")
-
-oddsratio <- exp(coef(mlr)) %>%
-  as.data.frame()
-names <-
-  c(
-    "Intercept",
-    "Big-Pharma",
-    "COVID-Outbreaks",
-    "COVID-Testing",
-    "Government-Skeptic",
-    "Sanitation",
-    "Masks",
-    "Distancing",
-    "US-Cases",
-    "Vaccine-Effects",
-    "Vaccine-Skeptic"
-  )
-# colnames(oddsratio) <- names
-colnames(oddsratio) <-
-  str_remove(colnames(oddsratio), pattern = "label_CDC")
-
-oddskable1 <- knitr::kable(
-  oddsratio[,1:5],
-  format = "latex",
-  digits = 2,
-  caption = "Odds Ratios: Reply Topic per CDC Topic",
-  # longtable = T,
-  # booktabs = T
-)  %>%
-  # column_spec(1:6, border_left = T, border_right = T) %>%
-  kable_styling(
-    latex_options = c("repeat_header",
-                      "scale_down",
-                      "hold_position"),
-  )# %>%
-  # add_footnote(
-  #   notation = "number",
-  #   label = c(
-  #     "CDC Topics by Column; Reply Topics by Row",
-  #     "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
-  #   )
-  # )
-oddskable1
-
-oddskable2 <- knitr::kable(
-  oddsratio[,6:11],
-  format = "latex",
-  digits = 2,
-  # longtable = T,
-  # booktabs = T
-)  %>%
-  # column_spec(1:6, border_left = T, border_right = T) %>%
-  kable_styling(
-    latex_options = c("repeat_header",
-                      "scale_down",
-                      "hold_position"),
-  ) %>%
-  add_footnote(
-    notation = "number",
-    label = c(
-      "CDC Topics by Column; Reply Topics by Row",
-      "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
-    )
-  )
-
-oddskable2
-
-# kableExtra::save_kable(oddskable, file = "odds.png")
-# knitr::include_graphics("odds.png")
-```
 
 
 
@@ -273,22 +323,7 @@ tweets_conversation <- CDC_topics %>%
 # Reply Topic are in that conversation
 ```
 
-```{r convID, echo = F}
-tweets_conversation <- readRDS("conversation_long_2.RDS") %>% 
-  dplyr::filter(conversation_id == "1440058230260916237") %>% 
-  dplyr::rename(
-    "Count" = "value",
-    # "Conversation-ID" = "conversation_id",
-    # "CDC-Topic" = "label_CDC",
-    # "Reply-Topic" = "label_Reply"
-  )
 
-
-convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", caption = "Example of Tweets aggregated by conversation ID") %>% 
-  kableExtra::kable_styling(latex_options = c("HOLD_position"))
-
-convID.kable
-```
 
 ## Multinomial Logistic Regression
 

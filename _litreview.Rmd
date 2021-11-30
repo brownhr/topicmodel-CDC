@@ -1,6 +1,6 @@
 # Literature Review
 
-While much research regarding text mining of Twitter data has focused specifically on the COVID-19 pandemic, little has been done to examine the public perception of government entities within the social media discourse [@dubey_twitter_2020; @boon-itt_public_2020; @manguri_twitter_2020 ; @garcia_topic_2021].
+While much research regarding text mining of Twitter data has focused specifically on the COVID-19 pandemic, little has been done to examine the public perception of government entities within the social media discourse [@dubey_twitter_2020; @boon-itt_public_2020; @manguri_twitter_2020 ; @garcia_topic_2021]. This study aims to provide both a qualitative and quantitative analysis of public perception, using the literature below as a foundation.
 
 ## Sentiment Analysis
 

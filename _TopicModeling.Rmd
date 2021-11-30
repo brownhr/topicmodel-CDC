@@ -1,5 +1,6 @@
 ---
-title: "Topic Modeling of Twitter Data regarding the CDC and the COVID-19 Pandemic"
+# title: "Topic Modeling of Twitter Data regarding the CDC and the COVID-19 Pandemic"
+title: "Public Perception of the CDC and the COVID-19 Pandemic through Topic Modeling and Qualitative Analysis"
 author: "Harrison Brown"
 date: "`r Sys.Date()`"
 output:
@@ -88,7 +89,6 @@ conv_nonzero <- conversation_long %>%
 # References
 
 <div id="refs"></div>
-
 
 \newpage
 ```{r child = "_appendix.Rmd"}
