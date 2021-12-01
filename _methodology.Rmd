@@ -10,8 +10,8 @@ Topic modeling is a powerful tool set within the field of text mining that allow
 
 topic.kable <- LDA_Summary %>% 
   dplyr::select(Topic_Name, top_terms_phi) %>% 
-  knitr::kable(caption = "Top 5 terms within each topic",format = "latex",
-               col.names = c("Topic", "Top Terms ($\\phi$)")) %>% #add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
+  knitr::kable(caption = "Top 5 terms ($\\phi$) within each topic",format = "latex",
+               col.names = c("Topic", "Terms")) %>% #add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
   kable_styling(latex_options = c("HOLD_position",
                                   "scale_down"))
 
@@ -27,11 +27,11 @@ A corpus is defined as a collection of documents for use in text mining; in this
 
 ### Document-Term Matrix
 
-A *Document-Term Matrix* (often, *DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors.
+A *Document-Term Matrix* (*DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors.
 
 ### Latent Dirichlet Allocation
 
-Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha ($\alpha$)).
+Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha (Section \@ref(alpha))).
 
 One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
 
@@ -47,7 +47,7 @@ Initially, the *LDA* model was performed on a sample of $\approx \text{20,000}$ 
 
 The parameter *K*, or $k$, defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document. The *short-text* nature of Twitter data provides several complications when performing topic modeling; one such issue was the generally low coherence values ($\approx 0.1$). As such, the value of $k$ was also chosen to minimize overlap between distinct topics, rather than focus solely on the maximum coherence score. Even when optimizing topic coherence, the value of $k$ is somewhat arbitrary, with the final decision being left to the researchers' discretion [@alghamdi_survey_2015].
 
-#### Alpha ($\alpha$)
+#### Alpha ($\alpha$) {#alpha}
 
 The $\alpha$ parameter models the distribution of topics within each document; at low values of $\alpha$ (i.e., close to 0), documents are likely to consist primarily of only one topic. At values of $\alpha \approx 1$, all distributions of topics per document are equally likely. As $\alpha\to\infty$, all topics become equally likely to occur (i.e., with $k = 3$ topics, documents are composed of $33\%$ topic 1, $33\%$ topic 2, and $33\%$ topic 3). $\alpha$ is controlled by a single argument within the `FitLdaModel` function, with a value of $0.1$.
 
