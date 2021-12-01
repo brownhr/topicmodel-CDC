@@ -8,12 +8,16 @@ Topic modeling is a powerful tool set within the field of text mining that allow
 
 ```{r topicsummary, echo = F}
 
-topic.kable <- LDA_Summary %>% 
-  dplyr::select(Topic_Name, top_terms_phi) %>% 
-  knitr::kable(caption = "Top 5 terms ($\\phi$) within each topic",format = "latex",
-               col.names = c("Topic", "Terms")) %>% #add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>% 
-  kable_styling(latex_options = c("HOLD_position",
-                                  "scale_down"))
+topic.kable <- LDA_Summary %>%
+  dplyr::select(Topic_Name, top_terms_phi) %>%
+  knitr::kable(
+    caption = "Top 5 terms ($\\phi$) within each topic", format = "latex",
+    col.names = c("Topic", "Terms")
+  ) %>% # add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>%
+  kable_styling(latex_options = c(
+    "HOLD_position",
+    "scale_down"
+  ))
 
 # topic.kable %>% kableExtra::save_kable("topics_table.png")
 topic.kable
@@ -90,5 +94,4 @@ In order to set up regression analysis, Tweets had to be "linked" by conversatio
 
 The primary method of regression analysis for this study was *multinomial logistic regression*, a method capable of modeling the predicted response of a categorical dependent variable with more than two possible outcomes (i.e. non-binary) [@ripley_nnet_2021]. Multinomial logistic regression was used over other regression models such as ordinal logistic regression, as the response variable was not in any particular order (e.g., a Likert scale), meaning the data was nominal. 
 
-Using the `multinom` function from the `nnet` R package, multinomial logistic regression was calculated on each conversation ID. Data were aggregated by CDC Tweets using conversation ID, such that Reply Tweets of the same conversation ID were in the same group. This function requires a "baseline" explanatory and response variable, which was chosen to be the "Public-Health" topic.
-
+Using the `multinom` function from the `nnet` R package, multinomial logistic regression was performed on the corpus. Data were aggregated by CDC Tweets using conversation ID, such that Reply Tweets of the same conversation ID were in the same group. Multinomial logistic regression compares values of response variables to changes from a "baseline" value, in this study the `Public-Health` topic, such that a change in the predictor variable leads to an expected change in the response variable.
