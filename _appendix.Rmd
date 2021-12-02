@@ -1,14 +1,15 @@
 # Appendix
 
-The following appendix provides much of the R code used in this study.
+The following appendix contains tables too large to fit comfortably within the body of the document, as well as much of the R code used in this analysis.
+
 
 ## Tables and Figures
 
 
 \tiny
 ```{r convID, echo = F}
-tweets_conversation <- readRDS("conversation_long_2.RDS") %>% 
-  dplyr::filter(conversation_id == "1440058230260916237") %>% 
+tweets_conversation <- readRDS("conversation_long_2.RDS") %>%
+  dplyr::filter(conversation_id == "1440058230260916237") %>%
   dplyr::rename(
     "Count" = "value",
     # "Conversation-ID" = "conversation_id",
@@ -17,7 +18,7 @@ tweets_conversation <- readRDS("conversation_long_2.RDS") %>%
   )
 
 
-convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", caption = "Example of Tweets aggregated by conversation ID") %>% 
+convID.kable <- knitr::kable(tweets_conversation, escape = T, format = "latex", caption = "Example of Tweets aggregated by conversation ID") %>%
   kableExtra::kable_styling(latex_options = c("HOLD_position"))
 
 convID.kable
@@ -53,12 +54,15 @@ oddskable <- knitr::kable(
   format = "latex",
   digits = 2,
   caption = "Odds Ratios: Reply Topic per CDC Topic",
-)  %>%
+) %>%
   # column_spec(1:12, border_left = T, border_right = T) %>%
-  kable_styling( full_width = T,
-    latex_options = c("repeat_header",
-                      # "scale_down",
-                      "hold_position"),
+  kable_styling(
+    full_width = T,
+    latex_options = c(
+      "repeat_header",
+      # "scale_down",
+      "hold_position"
+    ),
   ) %>%
   add_footnote(
     notation = "number",
@@ -66,45 +70,52 @@ oddskable <- knitr::kable(
       "CDC Topics by Column; Reply Topics by Row",
       "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
     )
-  ) %>% landscape()
+  ) %>%
+  landscape()
 oddskable
 
 
 oddskable1 <- knitr::kable(
-  oddsratio[,1:5],
+  oddsratio[, 1:5],
   format = "latex",
   digits = 2,
   caption = "Odds Ratios: Reply Topic per CDC Topic",
   # longtable = T,
   # booktabs = T
-)  %>%
+) %>%
   # column_spec(1:6, border_left = T, border_right = T) %>%
-  kable_styling( full_width = T,
-    latex_options = c("repeat_header",
-                      # "scale_down",
-                      "hold_position"),
-  )# %>%
-  # add_footnote(
-  #   notation = "number",
-  #   label = c(
-  #     "CDC Topics by Column; Reply Topics by Row",
-  #     "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
-  #   )
-  # )
+  kable_styling(
+    full_width = T,
+    latex_options = c(
+      "repeat_header",
+      # "scale_down",
+      "hold_position"
+    ),
+  ) # %>%
+# add_footnote(
+#   notation = "number",
+#   label = c(
+#     "CDC Topics by Column; Reply Topics by Row",
+#     "Note: 'Public-Health' is absent as it is the baseline for MLR analysis."
+#   )
+# )
 # oddskable1
 
 oddskable2 <- knitr::kable(
-  oddsratio[,6:11],
+  oddsratio[, 6:11],
   format = "latex",
   digits = 2,
   # longtable = T,
   # booktabs = T
-)  %>%
+) %>%
   # column_spec(1:6, border_left = T, border_right = T) %>%
-  kable_styling( full_width = T,
-    latex_options = c("repeat_header",
-                      # "scale_down",
-                      "hold_position"),
+  kable_styling(
+    full_width = T,
+    latex_options = c(
+      "repeat_header",
+      # "scale_down",
+      "hold_position"
+    ),
   ) %>%
   add_footnote(
     notation = "number",
@@ -169,14 +180,16 @@ library(textmineR)
 
 tweets_full <- read_csv(
   "tweets_full.csv",
-  col_types = cols(tweet_id = col_character(),
-                   conversation_id = col_character())
+  col_types = cols(
+    tweet_id = col_character(),
+    conversation_id = col_character()
+  )
 )
 
 # Filter Tweets by English language and select only necessary columns
 
-tweets_filter <- tweets_full %>% 
-  filter(lang == "en") %>% 
+tweets_filter <- tweets_full %>%
+  filter(lang == "en") %>%
   select(
     tweet_id, conversation_id, text
   )
@@ -187,22 +200,22 @@ t.stopwords <- c("amp", "$", "RT")
 # Create a Document-Term Matrix of 1- and 2-grams
 # Also, this step removes stopwords and lemmaticizes the data
 tweets_DTM <- CreateDtm(
-    doc_vec = tweets_filter$text,
-    doc_id = tweets_filter$tweet_id,
-    ngram_window = c(1,2),
-    stopword_vec = c(
-      stopwords::stopwords(language = "en"),
-      stopwords::stopwords(source = "smart"),
-      t.stopwords
-    ),
-    stem_lemma_function = function(x){
-      SnowballC::wordStem(words = x, language = "porter")
-    },
-    remove_punctuation = T,
-    remove_numbers = T,
-    # Convert to lower-case
-    lower = T
-  )
+  doc_vec = tweets_filter$text,
+  doc_id = tweets_filter$tweet_id,
+  ngram_window = c(1, 2),
+  stopword_vec = c(
+    stopwords::stopwords(language = "en"),
+    stopwords::stopwords(source = "smart"),
+    t.stopwords
+  ),
+  stem_lemma_function = function(x) {
+    SnowballC::wordStem(words = x, language = "porter")
+  },
+  remove_punctuation = T,
+  remove_numbers = T,
+  # Convert to lower-case
+  lower = T
+)
 
 
 # Finally, generating the LDA Model
@@ -213,7 +226,7 @@ tweets_LDA <- FitLdaModel(
   iterations = 1000,
   burnin = 500,
   calc_coherence = T,
-  
+
   # These parameters should be optimized in the publication run; this model
   # takes a lot of time to process so the values are kept at default.
   alpha = .1,
@@ -221,7 +234,7 @@ tweets_LDA <- FitLdaModel(
 )
 
 # Create a dataframe based on the theta parameter by tweet_id
-theta <- as.data.frame(tweets_LDA$theta) %>% 
+theta <- as.data.frame(tweets_LDA$theta) %>%
   rownames_to_column("tweet_id")
 
 
@@ -266,20 +279,25 @@ topic.names <- tibble(
   )
 )
 topic.names.c <-
-  setNames(as.character(topic.names$names),
-           topic.names$labels)
+  setNames(
+    as.character(topic.names$names),
+    topic.names$labels
+  )
 
 
 # Recoding the LDA Summary to include the more legible names
-LDA.summary <- LDA.summary %>% 
+LDA.summary <- LDA.summary %>%
   dplyr::mutate(
-    Topic_Name = recode(label_1,
-                       !!!topic.names.c) %>% 
+    Topic_Name = recode(
+      label_1,
+      !!!topic.names.c
+    ) %>%
       factor(ordered = F)
-  ) %>% arrange(Topic_Name)
+  ) %>%
+  arrange(Topic_Name)
 
 # Just a simple table of topic and topic names, for recoding later data
-topic.description <- LDA.summary %>% 
+topic.description <- LDA.summary %>%
   select(
     topic, Topic_Name
   )
@@ -301,7 +319,7 @@ tweets.LDA$max.theta <- apply(tweets.LDA[, 4:14], 1, max)
 # general population.
 
 # Loading the .csv with readr...
-tweets_CDC <- readr::read_csv("tweets_cdc.csv") %>% 
+tweets_CDC <- readr::read_csv("tweets_cdc.csv") %>%
   dplyr::select(tweet_id, text, conversation_id)
 
 # Fitting the LDA model requires a DTM
@@ -325,8 +343,10 @@ CDC_DTM <- CreateDtm(
 
 # Predicting CDC Topics based on original LDA; again, this is something that
 # will change in the final version of this paper.
-CDC_topics <- predict(object = tweets_LDA,
-                      newdata = CDC_DTM)
+CDC_topics <- predict(
+  object = tweets_LDA,
+  newdata = CDC_DTM
+)
 
 # For brevity, I won't include all the following steps, because they're
 # essentially the same as what was done for the Reply Tweets
@@ -345,9 +365,9 @@ CDC_topics <- predict(object = tweets_LDA,
 # by conversation_id is roughly the same as follows:
 
 
-# "CDC_topics" and "Reply_topics" are dataframes of tweet_id, 
+# "CDC_topics" and "Reply_topics" are dataframes of tweet_id,
 # conversation_id, and topic
-tweets_conversation <- CDC_topics %>% 
+tweets_conversation <- CDC_topics %>%
   left_join(Reply_topics, by = "conversation_id")
 
 # Below is an example of what the grouped dataframe looks like for a single
@@ -365,17 +385,18 @@ mlr <- conversation_long %>%
   dplyr::filter(
     # Filtered out rows where no Reply Tweets of a topic were found.
     value > 0
-  ) %>% 
+  ) %>%
   multinom(
     # label_CDC (CDC Topic) is the only independent variable in this
-    # case, but the results are weighted by `value`, or the count of 
+    # case, but the results are weighted by `value`, or the count of
     # Reply Tweets of different Topics (Count column in the example
     # table above)
-    formula = label_Reply ~ label_CDC, 
+    formula = label_Reply ~ label_CDC,
     weights = value,
-    data = .)
+    data = .
+  )
 
 # Calculate the Odds Ratio from the Coefficients from MLR.
-odds <- exp(coef(mlr)) %>% 
+odds <- exp(coef(mlr)) %>%
   as.data.frame()
 ```

@@ -3,7 +3,7 @@
 
 ## Topic Modeling
 
-The results from topic modeling through *LDA* (see Table \@ref(tab:topicsummary)) indicate that the primary discussion topics relating to the CDC include mask wearing (`Masks-Mask-Efficacy`), vaccine efficacy and skepticism (`Vaccine-Side-Effects` and `Vaccine-Skepticism`). As the results from *MLR* indicate (below), the most "controversial" CDC Topic, defined as the topic which generated the widest array of skeptical Reply Topics, was `Masks-Mask-Efficacy`, indicating a strong public mistrust in government mask mandates. The number of topics chosen for *LDA*, $k =$`r params$k`, was chosen to provide adequate coverage of all topics of discussion, while also limiting the amount of overlap between distinct topics.
+The results from topic modeling through *LDA* (see Table \@ref(tab:topicsummary)) indicate that the primary discussion topics relating to the CDC include mask wearing (`Masks-Mask-Efficacy`), vaccine efficacy and skepticism (`Vaccine-Side-Effects` and `Vaccine-Skepticism`). As the results from *MLR* indicate (below), the most "controversial" CDC Topic, defined as the topic which generated the widest array of skeptical Reply Topics, was `Masks-Mask-Efficacy`, indicating a strong public mistrust in government mask mandates. The number of topics chosen for *LDA*, $k =$ `r params$k`, was chosen to provide adequate coverage of all topics of discussion, while also limiting the amount of overlap between distinct topics.
 
 
 <!-- Change above section for publication; use separate LDA model for CDC and Reply Tweets. -->
