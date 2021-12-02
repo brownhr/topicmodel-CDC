@@ -6,7 +6,6 @@ The following appendix contains tables too large to fit comfortably within the b
 ## Tables and Figures
 
 
-\tiny
 ```{r convID, echo = F}
 tweets_conversation <- readRDS("conversation_long_2.RDS") %>%
   dplyr::filter(conversation_id == "1440058230260916237") %>%
@@ -135,12 +134,11 @@ oddskable2 <- knitr::kable(
 
 
 \normalsize
-\twocolumn
 
 ## academictwitteR
 
 
-\tiny
+
 ```{r academic, eval = F}
 
 date.start <- "2019-01-01T00:00:00Z"
@@ -166,12 +164,10 @@ get_all_tweets(
 
 ```
 
-\normalsize
 
 ## Latent Dirichlet Allocation
 
 
-\tiny
 ```{r LDA, eval = F}
 library(textmineR)
 
@@ -375,11 +371,9 @@ tweets_conversation <- CDC_topics %>%
 # Reply Topic are in that conversation
 ```
 
-\normalsize
 
 ## Multinomial Logistic Regression
 
-\tiny
 ```{r mlr, eval = F}
 mlr <- conversation_long %>%
   dplyr::filter(
