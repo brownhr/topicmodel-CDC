@@ -1,0 +1,58 @@
+```{r setup, echo = F}
+library(dplyr)
+library(readr)
+library(tidyverse)
+library(textmineR)
+library(academictwitteR)
+library(nnet)
+
+t.stopwords <- c("RT", "amp", "tco")
+```
+```{r loadtweets, echo = F}
+reply_tweets <- read_csv("tweets_filter.csv", col_types = cols(.default = "c"))
+
+cdc_tweets <- read_rds("tweets.CDC.filter")
+```
+
+
+```{r colorpalettes, echo = F}
+twitter.gradient <- c("#f0f07a", "#9CF58A", "#00EAB8", "#00D7E5", "#00BFFE", "#1DA1FA", "#648CE5", "#8178CA", "#9064AC", "#94538D", "#90446E")
+
+grad.2 <- c("#9cf58a", "#3feeb4", "#00e3dc", "#00d3f7", "#00bffe", "#34adf8", "#549bed", "#6d87de", "#8574c4", "#9162a8", "#94528a", "#90446e")
+
+grad.rainbow <- c("#ff6f91", "#ff8273", "#ff9d5a", "#f2ba4e", "#d4d558", "#a1dd73", "#69e099", "#00e0c1", "#00c9e1", "#00adf4", "#0489eb", "#845ec2")
+
+```
+
+```{r reply-createDTM, echo = FALSE}
+reply.DTM <- CreateDtm(
+    doc_vec = reply_tweets$text,
+    doc_names = reply_tweets$tweet_id,
+    ngram_window = c(1, 2),
+    stopword_vec = c(
+        stopwords::stopwords(language = "en"),
+        stopwords::stopwords(source = "smart"),
+        t.stopwords
+    ),
+    stem_lemma_function = function(x) {
+        SnowballC::wordStem(x, language = "porter")
+    },
+    remove_punctuation = T,
+    remove_numbers = T,
+    lower = T
+)
+```
+
+```{r fitldamodel, echo = F}
+# Run LDA model
+```
+
+```{r findmaxtopic, echo = F}
+# Depends on having run LDA model
+LDA.theta <- LDA$theta
+LDA.theta <- LDA.theta %>%
+    data.frame() %>%
+    rownames_to_column("tweet_id")
+LDA.theta$max.topic <- colnames(LDA.theta[, 2:12])[max.col(LDA.theta[, 2:12])]
+LDA.theta$max.theta <- apply(LDA.theta[, 2:12], 1, max)
+```
