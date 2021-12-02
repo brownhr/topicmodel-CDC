@@ -12,6 +12,6 @@ The results from topic modeling through *LDA* (see Table \@ref(tab:topicsummary)
 
 Table \@ref(tab:oddsratio) (see Appendix) gives the results of multinomial logistic regression in the form of Odds Ratios ($\text{OR}$), which indicate the relative "odds" of the occurrence of a Reply Topic per CDC Topic, when compared to the baseline of "Public Health". As this baseline was chosen arbitrarily, some consideration should be given as to what these Odds Ratios actually represent. For example, in Column 2 (the CDC Topic *COVID-19-Outbreaks*), a value of $2.11$ is given in Row 9 (Reply Topic *Vaccine-Side-Effects*); this represents that, with a CDC Tweet of the topic `Covid-19-Outbreaks`, Reply Tweets are $2.11$ times more likely to be of the topic `Vaccine-Side-Effects` than of the topic `Public-Health`.
 
-The CDC Topics which are deemed the most controversial are those **...**
+The CDC Topics which are deemed the most controversial are those which generate the widest variety of Reply Topics; interpreting the Odds Ratios in Table \@ref(tab:oddsratio), these Topics are those with several values greater than 1.
 
 

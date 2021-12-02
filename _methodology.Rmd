@@ -6,24 +6,6 @@ The primary methodology for this study involves the use of Topic Modeling, outli
 
 Topic modeling is a powerful tool set within the field of text mining that allows the user to extract a set of "topics" which occur within a set of documents (i.e. a *corpus*). These topics are based primarily on word co-occurrence; that is, words that appear frequently together are more likely to be assigned to the same topic. For example, because words such as "mask" and "mandate" frequently co-occur as bigrams in discussions on health and sanitation, they are likely to be assigned to the same topic; see table \@ref(tab:topicsummary) for the top 5 terms within each topic. For this analysis, the topic modeling method used is *Latent Dirichlet Allocation*, which allows for documents to be categorized into more than one topic; see Section \@ref(latent-dirichlet-allocation) for more detail.
 
-```{r topicsummary, echo = F}
-
-topic.kable <- LDA_Summary %>%
-  dplyr::select(Topic_Name, top_terms_phi) %>%
-  knitr::kable(
-    caption = "Top 5 terms ($\\phi$) within each topic", format = "latex",
-    col.names = c("Topic", "Terms")
-  ) %>% # add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>%
-  kable_styling(latex_options = c(
-    "HOLD_position",
-    "scale_down"
-  ))
-
-# topic.kable %>% kableExtra::save_kable("topics_table.png")
-topic.kable
-# topic.kable %>% save_kable("topics_table.png")
-# knitr::include_graphics("topics_table.png")
-```
 
 ### Constructing Corpus
 
@@ -31,15 +13,12 @@ A corpus is defined as a collection of documents for use in text mining; in this
 
 ### Document-Term Matrix
 
-A *Document-Term Matrix* (*DTM*) is a mathematical construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors.
+A *Document-Term Matrix* (*DTM*) is a construct that represents the occurrences of tokens within each document; as standard, columns in a *DTM* represent each document, rows represent each token, and the values within each cell show the frequency of a given token within a given document. This construction is useful as it allows for a representation of which tokens appear frequently across the entire corpus, and which tokens occur only in a small subset of documents. One major limitation of *DTM*s is the issue of matrix sparsity; the size of the matrix grows exponentially as new terms and documents are added to the corpus, but most cells within the *DTM* have a frequency of 0; the *DTM* generated in this study reported a sparsity of $100\%$, with rounding errors.
 
 ### Latent Dirichlet Allocation
 
-Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, is an unsupervised machine-learning approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha (Section \@ref(alpha))).
+Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, is an unsupervised approach to topic modeling, in which topics are assigned through "fuzzy clustering" into different subsets of topics. *LDA* allows for *unsupervised* topic modeling -- although the number of topics can be defined, the topics themselves (e.g., "mask wearing", "politics") are not known beforehand. Rather than in "hard clustering" algorithms such as hierarchical or k-means clustering, where documents consist of only a single topic, *LDA* assigns a distribution of topics to each document. For example, a Tweet discussing effectiveness of the COVID-19 vaccines may be classified as .81 (81%) Topic 1 ("vaccines"), .10 (10%) Topic 2 ("government"), etc., to a sum of 1 (i.e., documents have some proportion of *all* topics, but usually fall into one or two topics, based on the parameter alpha (Section \@ref(alpha))). One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distributions" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
 
-One of the foundations of *LDA* is the *Dirichlet Distribution*, a "distribution of distribution" modeled by several parameters outlined below. For a more thorough description of *LDA*, see @blei_latent_2003.
-
-Initially, the *LDA* model was performed on a sample of $\approx \text{20,000}$ Tweets, because the size and resource requirements of *LDA* grow exponentially as new documents are added to the model [@blei_latent_2003]. This sample was able to provide adequate coverage of the original dataset, with the topics of the remainder of the corpus being predicted using the sample *LDA* model as training data. 
 ```{=tex}
 \begin{figure}
   \centering
@@ -47,9 +26,12 @@ Initially, the *LDA* model was performed on a sample of $\approx \text{20,000}$ 
   \caption{\textit{Graphical model representation of LDA. From Blei (2003).}}
 \end{figure}
 ```
-#### *K*
 
-The parameter *K*, or $k$, defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document. The *short-text* nature of Twitter data provides several complications when performing topic modeling; one such issue was the generally low coherence values ($\approx 0.1$). As such, the value of $k$ was also chosen to minimize overlap between distinct topics, rather than focus solely on the maximum coherence score. Even when optimizing topic coherence, the value of $k$ is somewhat arbitrary, with the final decision being left to the researchers' discretion [@alghamdi_survey_2015].
+Initially, the *LDA* model was performed on a sample of $\approx \text{20,000}$ Tweets, because the size and resource requirements of *LDA* grow exponentially as new documents are added to the model [@blei_latent_2003]. This sample was able to provide adequate coverage of the original dataset, with the topics of the remainder of the corpus being predicted using the sample *LDA* model as training data. The parameters used to control the *LDA* model, as well as those generated as an output, are described below:
+
+#### K {#k}
+
+The parameter $k$ defines the number of discrete topics modeled using unsupervised classification. In this study, a value of $k = 11$ was chosen by iterating from $k = 2$ to $k = 24$ and calculating the *coherence score* of each value of $k$ -- the coherence score measures the similarity of terms within each topic, and is a rough measure of how well the *LDA* model assigns topics to each term and document. The *short-text* nature of Twitter data provides several complications when performing topic modeling; one such issue was the generally low coherence values ($\approx 0.1$). As such, the value of $k$ was also chosen to minimize overlap between distinct topics, rather than focus solely on the maximum coherence score. Even when optimizing topic coherence, the value of $k$ is somewhat arbitrary, with the final decision being left to the researchers' discretion [@alghamdi_survey_2015].
 
 #### Alpha ($\alpha$) {#alpha}
 
@@ -61,7 +43,7 @@ The $\beta$ parameter effectively models the distribution of words per topic; as
 
 #### Phi ($\phi$)
 
-The parameter $\phi$ models the probability of tokens (words) falling into each topic; i.e., for each topic, the probabilities of each token falling into that topic. $\phi$ is used to model the topics themselves to find the terms that are most frequently used within each topic, in order to gain an intuitive understanding of what each topic represents semantically. Table \@ref(tab:topicsummary) shows the top 5 terms within each topic, which were calculated using the values of $\phi$ [@jones_textminer_2019].
+The output parameter $\phi$ models the probability of tokens (words) falling into each topic; i.e., for each topic, the probabilities of each token falling into that topic. $\phi$ is used to model the topics themselves to find the terms that are most frequently used within each topic, in order to gain an intuitive understanding of what each topic represents semantically. Table \@ref(tab:topicsummary) shows the top 5 terms within each topic, which were calculated using the values of $\phi$ [@jones_textminer_2019].
 
 
 #### Theta ($\theta$)
@@ -82,6 +64,25 @@ Further research involving the optimal parameters of $\alpha$, $\beta$, and $k$ 
 
 ### Topic Name Assignment.
 
+```{r topicsummary, echo = F}
+
+topic.kable <- LDA_Summary %>%
+  dplyr::select(Topic_Name, top_terms_phi) %>%
+  knitr::kable(
+    caption = "Top 5 terms ($\\phi$) within each topic", format = "latex",
+    col.names = c("Topic", "Terms")
+  ) %>% # add_footnote("Terms joined by '_' represent bigrams.", notation = "none") %>%
+  kable_styling(latex_options = c(
+    "HOLD_position",
+    "scale_down"
+  ))
+
+# topic.kable %>% kableExtra::save_kable("topics_table.png")
+topic.kable
+# topic.kable %>% save_kable("topics_table.png")
+# knitr::include_graphics("topics_table.png")
+```
+
 A descriptive name for each topic was generated with the `textmineR::SummarizeTopics` function, which automatically assigns each topic a label based on most prevalent terms. The outcome of this function was then "cleaned up" and given proper capitalization and punctuation for legibility. This function was used to aid in eliminating potential researcher bias in arbitrarily assigning names to topics.
 
 When generating a Document-Term Matrix using the `textmineR::CreateDtm` function, the argument `doc_names` is used to link `tweet_id` to the output of the *LDA* model (i.e., the rows of the matrix $\theta$). Topics were assigned to documents using the maximum value of $\theta$ within each row; further research should use the entire distribution of $\theta$ to use a set of continuous variables within multinomial logistic regression. The resulting table of topics was then joined to the original corpus to create a data frame of Tweets containing text, `tweet_id`, `conversation_id`, and topic.
@@ -89,6 +90,8 @@ When generating a Document-Term Matrix using the `textmineR::CreateDtm` function
 Note should be taken regarding the topics "Big-Pharma", "Government-Skepticism", and "Vaccine-Skepticism", specifically in how these topics are applied to CDC Tweets. As the CDC does not intentionally promote skepticism towards the efficacy of mask-wearing and vaccines, these topics warrant further examination. CDC Tweets of these topics are primarily artefacts of how *LDA* was used in this analysis; these are largely Tweets that either do not clearly fall into topics regarding public health and mask-wearing, or were authored pre-COVID, when much of the discourse consisted of regulatory information ("vaping," food-related recalls, etc.).
 
 In order to set up regression analysis, Tweets had to be "linked" by conversation ID. For this analysis, CDC Tweets were set to be the "parent" of the conversation, and the corpus of Reply Tweets was filtered and grouped within each `conversation_id`. The resulting table contained, for each distinct `conversation_id`, the parent CDC Topic as well as a collection of any Reply Tweets and their Topics. This allowed for a direct relationship between CDC Tweets and Reply Tweets, so that their respective topics could be compared using regression.
+
+
 
 ### Multinomial Logistic Regression
 
