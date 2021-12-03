@@ -20,6 +20,7 @@ header-includes:
 - \graphicspath{ {./} }
 bibliography: topicmodeling.bib
 csl: aag.csl
+documentclass: sagej
 params:
   k: 11
 ---
@@ -56,15 +57,11 @@ conv_nonzero <- conversation_long %>%
 ```
 
 
-\doublespacing
 
 ```{r child= "_abstract.Rmd"}
 
 ```
 
-\onehalfspacing
-
-\twocolumn
 
 \tableofcontents
 
@@ -106,8 +103,7 @@ conv_nonzero <- conversation_long %>%
 
 </div>
 
-
-\onecolumn
+\newpage
 
 ```{r child = "_appendix.Rmd"}
 

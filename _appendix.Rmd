@@ -133,13 +133,12 @@ oddskable2 <- knitr::kable(
 
 
 
-\normalsize
 
-## academictwitteR
-
+<!-- ## academictwitteR -->
 
 
-```{r academic, eval = F}
+
+```{r academic, eval = F, include = F}
 
 date.start <- "2019-01-01T00:00:00Z"
 date.end <- "2021-09-21T00:00:00Z"
@@ -165,10 +164,10 @@ get_all_tweets(
 ```
 
 
-## Latent Dirichlet Allocation
+<!-- ## Latent Dirichlet Allocation -->
 
 
-```{r LDA, eval = F}
+```{r LDA, eval = F, include= F}
 library(textmineR)
 
 # Read in Tweets acquired from academictwitteR::get_all_tweets()
@@ -355,7 +354,7 @@ CDC_topics <- predict(
 
 
 
-```{r conversation, eval = F}
+```{r conversation, eval = F, include=F}
 # Tweets were grouped by conversation_id. Unfortunately, the original file
 # containing the actual analysis has been lost, but the process of grouping
 # by conversation_id is roughly the same as follows:
@@ -372,9 +371,9 @@ tweets_conversation <- CDC_topics %>%
 ```
 
 
-## Multinomial Logistic Regression
+<!--## Multinomial Logistic Regression-->
 
-```{r mlr, eval = F}
+```{r mlr, eval = F, include=F}
 mlr <- conversation_long %>%
   dplyr::filter(
     # Filtered out rows where no Reply Tweets of a topic were found.
