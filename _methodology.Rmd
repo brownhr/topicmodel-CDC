@@ -22,7 +22,7 @@ Latent Dirichlet Allocation (hereafter *LDA*), developed in @blei_latent_2003, i
 ```{=tex}
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{blei_lda_model}
+  \includegraphics[width=0.5\textwidth]{"blei_lda_model.png"}
   \caption{\textit{Graphical model representation of LDA. From Blei (2003).}}
 \end{figure}
 ```
