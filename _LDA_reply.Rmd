@@ -1,0 +1,40 @@
+---
+output: pdf_document
+---
+
+```{r setup, include = F}
+
+library(dplyr)
+library(readr)
+library(stringr)
+library(textmineR)
+library(SnowballC)
+
+# Read reply tweets from RDS file
+
+reply_tweets <- read_rds("data/reply_tweets.Rds")
+
+
+# Create some Twitter stopwords
+
+twitter_stopwords <- c("amp", "rt", "co", "t", "cdcgov")
+```
+
+```{r reply-dtm, eval = T}
+reply_dtm <- CreateDtm(
+    doc_vec = reply_tweets$text,
+    doc_names = reply_tweets$tweet_id,
+    # Search up to trigrams
+    ngram_window = c(1, 3),
+    stopword_vec = c(
+        twitter_stopwords,
+        stopwords::stopwords(language = "en"),
+        stopwords::stopwords(source = "smart")
+    ),
+    stem_lemma_function = function(x) {
+        SnowballC::wordStem(x, language = "porter")
+    },
+    verbose = T
+)
+```
+
