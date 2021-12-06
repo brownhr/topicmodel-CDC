@@ -38,7 +38,7 @@ reply_tweets_sample <- reply_tweets %>%
     slice_sample(prop = 0.2)
 ```
 
-```{r reply-dtm, eval = F}
+```{r reply-dtm-sample, eval = F}
 source("createDTM.R")
 
 if (!file.exists("data/reply_dtm_sample.Rds")) {
@@ -50,7 +50,7 @@ if (!file.exists("data/reply_dtm_sample.Rds")) {
 }
 ```
 
-```{r calc-lda-k, eval = T}
+```{r calc-lda-k, eval = F}
 source("createLDA.R")
 
 # Define a directory for LDA models...
