@@ -238,3 +238,7 @@ Emoji_Sentiment_Data_v1.0.csv
 *.Rhistory
 .Rhistory/
 LDA.lda
+
+
+data/reply_dtm.RDS
+data/reply_dtm_sample.Rds
