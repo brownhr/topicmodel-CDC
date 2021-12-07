@@ -51,33 +51,38 @@ if (!file.exists("data/reply_dtm_sample.Rds")) {
 ```
 
 ```{r calc-lda-k, eval = F}
-source("createLDA.R")
+# source("createLDA.R")
 
 # Define a directory for LDA models...
 
 
-k_list <- seq(2, 100, 1)
+k_list <- seq(2, 50, 1)
 
-k_list <- TmParallelApply(
+lda_list <- TmParallelApply(
     X = k_list,
-    FUN = function(K) {
-        filename <- paste0(model_dir, "/", K, "_model.Rds")
-
+    FUN = function(k) {
+        filename = file.path(model_dir, paste0(k, ".rda"))
         if (!file.exists(filename)) {
-            lda <- cast_lda(
+            lda <- textmineR::FitLdaModel(
                 dtm = reply_dtm_sample,
-                k = K,
+                k = k,
+                alpha = 0.1,
+                beta = 0.05,
+                calc_coherence = TRUE,
+                cpus = 1
             )
-            write_rds(lda, file = filename)
+            lda$k <- k
+            save(lda, file = filename)
         } else {
-            lda <- read_rds(filename)
+            load(filename)
         }
 
-        coherence <- lda$coherence
+        coherence <- mean(lda$coherence)
+        rm(lda)
         return(coherence)
     },
-    export = c("k_list", "cast_lda", "reply_dtm_sample", "model_dir"),
-    cpus = (parallel::detectCores() - 2)
+    export = c("reply_dtm_sample"),
+    cpus = 10
 )
 ```
 
