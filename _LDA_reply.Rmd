@@ -58,30 +58,26 @@ if (!file.exists("data/reply_dtm_sample.Rds")) {
 
 k_list <- seq(2, 50, 1)
 
-lda_list <- TmParallelApply(
+TmParallelApply(
     X = k_list,
     FUN = function(k) {
-        filename = file.path(model_dir, paste0(k, ".rda"))
+        filename <- file.path(model_dir, paste0(as.character(k), ".rda"))
         if (!file.exists(filename)) {
             lda <- textmineR::FitLdaModel(
                 dtm = reply_dtm_sample,
                 k = k,
+                iterations = 200,
+                burnin = -1,
                 alpha = 0.1,
                 beta = 0.05,
                 calc_coherence = TRUE,
-                cpus = 1
             )
+            print(k)
             lda$k <- k
-            save(lda, file = filename)
-        } else {
-            load(filename)
+            write_rds(lda, file = filename)
         }
-
-        coherence <- mean(lda$coherence)
-        rm(lda)
-        return(coherence)
     },
-    export = c("reply_dtm_sample"),
+    export = c("reply_dtm_sample", "model_dir"),
     cpus = 10
 )
 ```
