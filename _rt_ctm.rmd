@@ -1,0 +1,61 @@
+---
+    
+
+---
+
+
+```{r setup, include = F}
+library(dplyr)
+library(readr)
+library(tm)
+library(stringr)
+library(quanteda)
+library(topicmodels)
+
+twitter_stopwords <- c("amp", "rt", "co", "t", "cdcgov", "@CDCgov")
+
+rt <- read_rds("data/reply_tweets.Rds")
+```
+
+
+```{r rt-sample}
+rt_sample <- rt %>%
+    head(20000)
+```
+
+```{r init-corpus}
+rts_corpus <- corpus(
+    rt_sample,
+    text_field = "text",
+    docid_field = "tweet_id"
+)
+
+rts_tokens <- tokens(
+    x = rts_corpus,
+    remove_numbers = T,
+    remove_url = T,
+    remove_symbols = T,
+    remove_punct = T,
+    remove_separators = T,
+    split_hyphens = T
+) %>%
+    tokens_select(
+        pattern = c(
+            "(@[A-Za-z_]+)+"
+        ),
+        valuetype = "regex",
+        selection = "remove"
+    ) %>%
+    tokens_select(
+        pattern = c(
+            # stopwords::stopwords(language = "en"),
+            # stopwords::stopwords(source = "smart"),
+            twitter_stopwords
+        ),
+        selection = "remove",
+    ) %>%
+    tokens_ngrams(
+        n = 3L
+    )
+```
+

@@ -12,6 +12,7 @@ library(topicmodels)
 library(SnowballC)
 library(parallel)
 library(quanteda)
+library(tm)
 
 # Read reply tweets from RDS file
 
@@ -36,20 +37,12 @@ if (file.exists("data/reply_dtm_sample.Rds")) {
 }
 ```
 
-```{r sample-reply, eval = F}
+```{r sample-reply, eval = T}
 reply_tweets_sample <- reply_tweets %>%
     slice_sample(prop = 0.2)
 ```
 
-```{r cleantext}
 
-rt_sample_corpus <- corpus(
-    reply_tweets_sample$text,
-    docnames = reply_tweets_sample$tweet_id
-)
-    
-
-```
 
 
 ```{r reply-dtm-sample, eval = F}
@@ -60,6 +53,7 @@ if (!file.exists("data/reply_dtm_sample.Rds")) {
         doc_vec = reply_tweets_sample$text,
         doc_names = reply_tweets_sample$tweet_id
     )
+    
     write_rds(reply_dtm_sample, "data/reply_dtm_sample.Rds")
 }
 ```
@@ -111,12 +105,12 @@ k_result <- parLapply(
 stopCluster(cl)
 ```
 
-```{r CTM-init, eval = F}
+```{r CTM-init, eval = T}
 # If we choose to run a CTM, put it here
 
 
-sample_ctm <- topicmodels::CTM(
-    x = reply_dtm_sample,
+sample_ctm <- FitCtmModel(
+    dtm = reply_dtm_sample,
     k = 6
 )
 ```
