@@ -14,3 +14,12 @@ create_dtm <- function(doc_vec, doc_names, ...) {
     )
     return(dtm)
 }
+
+
+
+create_dtm_topicm <- function(x) {
+    topicmodels::CTM(
+        x = 
+    )
+
+}

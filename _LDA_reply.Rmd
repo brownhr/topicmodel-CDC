@@ -8,7 +8,10 @@ library(dplyr)
 library(readr)
 library(stringr)
 library(textmineR)
+library(topicmodels)
 library(SnowballC)
+library(parallel)
+library(quanteda)
 
 # Read reply tweets from RDS file
 
@@ -38,6 +41,17 @@ reply_tweets_sample <- reply_tweets %>%
     slice_sample(prop = 0.2)
 ```
 
+```{r cleantext}
+
+rt_sample_corpus <- corpus(
+    reply_tweets_sample$text,
+    docnames = reply_tweets_sample$tweet_id
+)
+    
+
+```
+
+
 ```{r reply-dtm-sample, eval = F}
 source("createDTM.R")
 
@@ -58,9 +72,20 @@ if (!file.exists("data/reply_dtm_sample.Rds")) {
 
 k_list <- seq(2, 50, 1)
 
-TmParallelApply(
+
+
+cores <- (detectCores() - 4)
+
+
+cl <- makeCluster(cores)
+
+clusterExport(cl, c("model_dir", "reply_dtm_sample"))
+
+
+k_result <- parLapply(
+    cl,
     X = k_list,
-    FUN = function(k) {
+    fun = function(k) {
         filename <- file.path(model_dir, paste0(as.character(k), ".rda"))
         if (!file.exists(filename)) {
             lda <- textmineR::FitLdaModel(
@@ -75,13 +100,23 @@ TmParallelApply(
             print(k)
             lda$k <- k
             write_rds(lda, file = filename)
+            return(lda)
+        } else {
+            lda <- read_rds(lda)
+            return(lda)
         }
-    },
-    export = c("reply_dtm_sample", "model_dir"),
-    cpus = 10
+    }
 )
+
+stopCluster(cl)
 ```
 
 ```{r CTM-init, eval = F}
 # If we choose to run a CTM, put it here
+
+
+sample_ctm <- topicmodels::CTM(
+    x = reply_dtm_sample,
+    k = 6
+)
 ```
