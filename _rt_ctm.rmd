@@ -48,14 +48,56 @@ rts_tokens <- tokens(
     ) %>%
     tokens_select(
         pattern = c(
-            # stopwords::stopwords(language = "en"),
-            # stopwords::stopwords(source = "smart"),
+            stopwords::stopwords(language = "en"),
+            stopwords::stopwords(source = "smart"),
             twitter_stopwords
         ),
         selection = "remove",
     ) %>%
     tokens_ngrams(
-        n = 3L
+        n = c(1L, 2L)
     )
 ```
 
+```{r rts-dfm}
+rts_dfm <- quanteda::dfm(
+    x = rts_tokens
+)
+
+rts_dfm <- dfm_subset(
+    x = rts_dfm,
+    subset = ntoken(rts_dfm) > 0
+)
+```
+
+```{r rts-LDA, eval = F}
+rts_lda <- LDA(
+    x = rts_dfm,
+    k = 12,
+    method = "Gibbs",
+    control = list(
+        alpha = 0.1,
+        iter = 1000,
+        verbose = 10
+    )
+)
+```
+
+```{r rts-lda-terms, eval = F}
+rts_lda_topics <- topicmodels::topics(rts_lda)
+rts_lda_terms <- topicmodels::terms(rts_lda, 20)
+```
+
+```{r rts-ctm, eval = F}
+rts_ctm <- CTM(
+    x = rts_dfm,
+    k = 5,
+    control = list(
+        var = list(tol = 10^-4),
+        em = list(tol = 10^-3),
+        cg = list(
+            iter.max = 300
+        )
+    )
+)
+```
